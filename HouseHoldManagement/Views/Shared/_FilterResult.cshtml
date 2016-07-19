@@ -1,0 +1,42 @@
+﻿@model HouseHoldManagement.Business.Shared.FilterResultViewModel
+
+@{ 
+    string postAction = Convert.ToString(ViewBag.PostAction);
+    string postController = Convert.ToString(ViewBag.PostController);
+}
+
+@using (Html.BeginForm(postAction, postController, FormMethod.Get,new { @class = "form-horizontal"}))
+{
+    <h4>Filter</h4>
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.FromDate, new { @class = "control-label" })
+        @Html.EditorFor(model => model.FromDate, new { @htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ToDate, new { @class = "control-label" })
+        @Html.EditorFor(model => model.ToDate, new { @htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ToDate,"",new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ExpenseTypes, new { @class = "control-label" })
+        @Html.DropDownListFor(model => model.ExpenseTypeId, new SelectList(Model.ExpenseTypes, "ExpenseTypeId", "ExpenseTypeName"),"--Select--", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ExpenseTypeId,"", new { @class="text-danger"})
+        
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.PaymentModes, new { @class = "control-label" })
+        @Html.DropDownListFor(model => model.PaymentModeId, new SelectList(Model.PaymentModes, "PaymentModeId", "PaymentModeName"),"--Select--", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.PaymentModeId, "", new { @class="text-danger"})
+        
+    </div>
+    <div class="form-group">    
+        <div class="col-sm-offset-1 col-sm-10">
+            <button type="submit" class="btn btn-primary btn-block">Filter</button>
+        </div>    
+    </div>
+}
+
+

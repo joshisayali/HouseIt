@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseHoldManagement", "HouseHoldManagement\HouseHoldManagement.csproj", "{306F7CAD-A1B0-48AB-9DAB-416DA63B8D72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseHoldManagement.Tests", "HouseHoldManagement.Tests\HouseHoldManagement.Tests.csproj", "{88C216D9-29C9-49D6-98B2-7CD30D1BEF53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseHoldManagement.Business", "HouseHoldManagement.Business\HouseHoldManagement.Business.csproj", "{9AFB1453-4B58-4E80-8D86-330B10C8837B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseHoldManagement.Data", "HouseHoldManagement.Data\HouseHoldManagement.Data.csproj", "{37EE8FD1-9ABC-40C3-8BA1-038E2BCB0F75}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HouseHoldManagement.Utilities", "HouseHoldManagement.Utilities\HouseHoldManagement.Utilities.csproj", "{F1112A41-C7D3-4342-B1CE-4BCACE69F495}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{306F7CAD-A1B0-48AB-9DAB-416DA63B8D72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{306F7CAD-A1B0-48AB-9DAB-416DA63B8D72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{306F7CAD-A1B0-48AB-9DAB-416DA63B8D72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{306F7CAD-A1B0-48AB-9DAB-416DA63B8D72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88C216D9-29C9-49D6-98B2-7CD30D1BEF53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88C216D9-29C9-49D6-98B2-7CD30D1BEF53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88C216D9-29C9-49D6-98B2-7CD30D1BEF53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88C216D9-29C9-49D6-98B2-7CD30D1BEF53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AFB1453-4B58-4E80-8D86-330B10C8837B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AFB1453-4B58-4E80-8D86-330B10C8837B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AFB1453-4B58-4E80-8D86-330B10C8837B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AFB1453-4B58-4E80-8D86-330B10C8837B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37EE8FD1-9ABC-40C3-8BA1-038E2BCB0F75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37EE8FD1-9ABC-40C3-8BA1-038E2BCB0F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37EE8FD1-9ABC-40C3-8BA1-038E2BCB0F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37EE8FD1-9ABC-40C3-8BA1-038E2BCB0F75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1112A41-C7D3-4342-B1CE-4BCACE69F495}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1112A41-C7D3-4342-B1CE-4BCACE69F495}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1112A41-C7D3-4342-B1CE-4BCACE69F495}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1112A41-C7D3-4342-B1CE-4BCACE69F495}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

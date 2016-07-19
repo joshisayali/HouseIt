@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HouseHoldManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EarnedAmount">
+          <Key>
+            <PropertyRef Name="EarnedAmountId" />
+          </Key>
+          <Property Name="EarnedAmountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EarnedAmountDate" Type="date" Nullable="false" />
+          <Property Name="EarnedAmountSource" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AmountEarned" Type="int" Nullable="false" />
+          <Property Name="EarnedAmountDetails" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="ExpenseType">
+          <Key>
+            <PropertyRef Name="ExpenseTypeId" />
+          </Key>
+          <Property Name="ExpenseTypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ExpenseTypeName" Type="varchar" MaxLength="50" />
+          <Property Name="ExpenseTypeDescription" Type="varchar" MaxLength="100" />
+          <Property Name="IsInUse" Type="bit" />
+        </EntityType>
+        <EntityType Name="Months">
+          <Key>
+            <PropertyRef Name="MonthId" />
+          </Key>
+          <Property Name="MonthId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MonthName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PaymentMode">
+          <Key>
+            <PropertyRef Name="PaymentModeId" />
+          </Key>
+          <Property Name="PaymentModeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentModeName" Type="varchar" MaxLength="50" />
+          <Property Name="PaymentModeDescription" Type="varchar" MaxLength="100" />
+          <Property Name="IsInUse" Type="bit" />
+        </EntityType>
+        <EntityType Name="SpentAmount">
+          <Key>
+            <PropertyRef Name="SpentAmountId" />
+          </Key>
+          <Property Name="SpentAmountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SpentAmountDate" Type="date" Nullable="false" />
+          <Property Name="SpentAmountItem" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="AmountSpent" Type="int" Nullable="false" />
+          <Property Name="ExpenseTypeID" Type="int" Nullable="false" />
+          <Property Name="PaymentModeID" Type="int" Nullable="false" />
+          <Property Name="SpentAmountDetails" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <Association Name="FK__SpentAmou__Expen__164452B1">
+          <End Role="ExpenseType" Type="Self.ExpenseType" Multiplicity="1" />
+          <End Role="SpentAmount" Type="Self.SpentAmount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseType">
+              <PropertyRef Name="ExpenseTypeId" />
+            </Principal>
+            <Dependent Role="SpentAmount">
+              <PropertyRef Name="ExpenseTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SpentAmou__Payme__173876EA">
+          <End Role="PaymentMode" Type="Self.PaymentMode" Multiplicity="1" />
+          <End Role="SpentAmount" Type="Self.SpentAmount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMode">
+              <PropertyRef Name="PaymentModeId" />
+            </Principal>
+            <Dependent Role="SpentAmount">
+              <PropertyRef Name="PaymentModeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HouseHoldManagementModelStoreContainer">
+          <EntitySet Name="EarnedAmount" EntityType="Self.EarnedAmount" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExpenseType" EntityType="Self.ExpenseType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Months" EntityType="Self.Months" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PaymentMode" EntityType="Self.PaymentMode" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SpentAmount" EntityType="Self.SpentAmount" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__SpentAmou__Expen__164452B1" Association="Self.FK__SpentAmou__Expen__164452B1">
+            <End Role="ExpenseType" EntitySet="ExpenseType" />
+            <End Role="SpentAmount" EntitySet="SpentAmount" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SpentAmou__Payme__173876EA" Association="Self.FK__SpentAmou__Payme__173876EA">
+            <End Role="PaymentMode" EntitySet="PaymentMode" />
+            <End Role="SpentAmount" EntitySet="SpentAmount" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HouseHoldManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EarnedAmount">
+          <Key>
+            <PropertyRef Name="EarnedAmountId" />
+          </Key>
+          <Property Name="EarnedAmountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EarnedAmountDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EarnedAmountSource" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AmountEarned" Type="Int32" Nullable="false" />
+          <Property Name="EarnedAmountDetails" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ExpenseType">
+          <Key>
+            <PropertyRef Name="ExpenseTypeId" />
+          </Key>
+          <Property Name="ExpenseTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExpenseTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ExpenseTypeDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsInUse" Type="Boolean" />
+          <NavigationProperty Name="SpentAmounts" Relationship="Self.FK__SpentAmou__Expen__164452B1" FromRole="ExpenseType" ToRole="SpentAmount" />
+        </EntityType>
+        <EntityType Name="Month">
+          <Key>
+            <PropertyRef Name="MonthId" />
+          </Key>
+          <Property Name="MonthId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MonthName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="PaymentMode">
+          <Key>
+            <PropertyRef Name="PaymentModeId" />
+          </Key>
+          <Property Name="PaymentModeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentModeName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentModeDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsInUse" Type="Boolean" />
+          <NavigationProperty Name="SpentAmounts" Relationship="Self.FK__SpentAmou__Payme__173876EA" FromRole="PaymentMode" ToRole="SpentAmount" />
+        </EntityType>
+        <EntityType Name="SpentAmount">
+          <Key>
+            <PropertyRef Name="SpentAmountId" />
+          </Key>
+          <Property Name="SpentAmountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SpentAmountDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="SpentAmountItem" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AmountSpent" Type="Int32" Nullable="false" />
+          <Property Name="ExpenseTypeID" Type="Int32" Nullable="false" />
+          <Property Name="PaymentModeID" Type="Int32" Nullable="false" />
+          <Property Name="SpentAmountDetails" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ExpenseType" Relationship="Self.FK__SpentAmou__Expen__164452B1" FromRole="SpentAmount" ToRole="ExpenseType" />
+          <NavigationProperty Name="PaymentMode" Relationship="Self.FK__SpentAmou__Payme__173876EA" FromRole="SpentAmount" ToRole="PaymentMode" />
+        </EntityType>
+        <Association Name="FK__SpentAmou__Expen__164452B1">
+          <End Role="ExpenseType" Type="Self.ExpenseType" Multiplicity="1" />
+          <End Role="SpentAmount" Type="Self.SpentAmount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseType">
+              <PropertyRef Name="ExpenseTypeId" />
+            </Principal>
+            <Dependent Role="SpentAmount">
+              <PropertyRef Name="ExpenseTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SpentAmou__Payme__173876EA">
+          <End Role="PaymentMode" Type="Self.PaymentMode" Multiplicity="1" />
+          <End Role="SpentAmount" Type="Self.SpentAmount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PaymentMode">
+              <PropertyRef Name="PaymentModeId" />
+            </Principal>
+            <Dependent Role="SpentAmount">
+              <PropertyRef Name="PaymentModeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HouseHoldManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EarnedAmounts" EntityType="Self.EarnedAmount" />
+          <EntitySet Name="ExpenseTypes" EntityType="Self.ExpenseType" />
+          <EntitySet Name="Months" EntityType="Self.Month" />
+          <EntitySet Name="PaymentModes" EntityType="Self.PaymentMode" />
+          <EntitySet Name="SpentAmounts" EntityType="Self.SpentAmount" />
+          <AssociationSet Name="FK__SpentAmou__Expen__164452B1" Association="Self.FK__SpentAmou__Expen__164452B1">
+            <End Role="ExpenseType" EntitySet="ExpenseTypes" />
+            <End Role="SpentAmount" EntitySet="SpentAmounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SpentAmou__Payme__173876EA" Association="Self.FK__SpentAmou__Payme__173876EA">
+            <End Role="PaymentMode" EntitySet="PaymentModes" />
+            <End Role="SpentAmount" EntitySet="SpentAmounts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HouseHoldManagementModelStoreContainer" CdmEntityContainer="HouseHoldManagementEntities">
+          <EntitySetMapping Name="EarnedAmounts">
+            <EntityTypeMapping TypeName="HouseHoldManagementModel.EarnedAmount">
+              <MappingFragment StoreEntitySet="EarnedAmount">
+                <ScalarProperty Name="EarnedAmountId" ColumnName="EarnedAmountId" />
+                <ScalarProperty Name="EarnedAmountDate" ColumnName="EarnedAmountDate" />
+                <ScalarProperty Name="EarnedAmountSource" ColumnName="EarnedAmountSource" />
+                <ScalarProperty Name="AmountEarned" ColumnName="AmountEarned" />
+                <ScalarProperty Name="EarnedAmountDetails" ColumnName="EarnedAmountDetails" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExpenseTypes">
+            <EntityTypeMapping TypeName="HouseHoldManagementModel.ExpenseType">
+              <MappingFragment StoreEntitySet="ExpenseType">
+                <ScalarProperty Name="ExpenseTypeId" ColumnName="ExpenseTypeId" />
+                <ScalarProperty Name="ExpenseTypeName" ColumnName="ExpenseTypeName" />
+                <ScalarProperty Name="ExpenseTypeDescription" ColumnName="ExpenseTypeDescription" />
+                <ScalarProperty Name="IsInUse" ColumnName="IsInUse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Months">
+            <EntityTypeMapping TypeName="HouseHoldManagementModel.Month">
+              <MappingFragment StoreEntitySet="Months">
+                <ScalarProperty Name="MonthId" ColumnName="MonthId" />
+                <ScalarProperty Name="MonthName" ColumnName="MonthName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PaymentModes">
+            <EntityTypeMapping TypeName="HouseHoldManagementModel.PaymentMode">
+              <MappingFragment StoreEntitySet="PaymentMode">
+                <ScalarProperty Name="PaymentModeId" ColumnName="PaymentModeId" />
+                <ScalarProperty Name="PaymentModeName" ColumnName="PaymentModeName" />
+                <ScalarProperty Name="PaymentModeDescription" ColumnName="PaymentModeDescription" />
+                <ScalarProperty Name="IsInUse" ColumnName="IsInUse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SpentAmounts">
+            <EntityTypeMapping TypeName="HouseHoldManagementModel.SpentAmount">
+              <MappingFragment StoreEntitySet="SpentAmount">
+                <ScalarProperty Name="SpentAmountId" ColumnName="SpentAmountId" />
+                <ScalarProperty Name="SpentAmountDate" ColumnName="SpentAmountDate" />
+                <ScalarProperty Name="SpentAmountItem" ColumnName="SpentAmountItem" />
+                <ScalarProperty Name="AmountSpent" ColumnName="AmountSpent" />
+                <ScalarProperty Name="ExpenseTypeID" ColumnName="ExpenseTypeID" />
+                <ScalarProperty Name="PaymentModeID" ColumnName="PaymentModeID" />
+                <ScalarProperty Name="SpentAmountDetails" ColumnName="SpentAmountDetails" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

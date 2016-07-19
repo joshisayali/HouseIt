@@ -1,0 +1,207 @@
+﻿@using HouseHoldManagement.Business.Expense;
+@using HouseHoldManagement.Business.Shared;
+@using PagedList.Mvc;
+@*@model IEnumerable<SpentAmountViewModel>*@
+@model PagedList.IPagedList<SpentAmountViewModel>
+
+@{
+    ViewBag.Title = "Spent";
+}
+
+<h2>Spent</h2>
+
+<div class="container">
+    <div class="row row-content">
+        <div class="col-sm-2">
+            <div class="row row-content">
+                @{Html.RenderAction("GetFilterView", "Shared", new { PostAction = "SpentAmount", PostController = "Spent" });} @*To Do: Pass action name and controller name to filter view*@
+
+            </div>
+        </div>
+        <div class="col-sm-offset-1 col-sm-9">
+            <div class="row row-content">
+                <div class="col-sm-12">
+                    @{Html.RenderPartial("_QuickLinks");}
+                </div>
+            </div>
+            <div class="row row-content">
+                <div class="col-sm-12">
+                    @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal" }))
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>@Html.ActionLink("Date", "SpentAmount", new { sortOrder = ViewBag.DateSortOrder, page = ViewBag.CurrentPageNumber })</th>
+                                        <th>@Html.DisplayNameFor(model => Model[0].SpentAmountItem)</th>
+                                        <th>@Html.ActionLink("Amount", "SpentAmount", new { sortOrder = ViewBag.AmountSortOrder, page = ViewBag.CurrentPageNumber })</th>
+                                        <th>@Html.DisplayNameFor(model => Model[0].ExpenseType)</th>
+                                        <th>@Html.DisplayNameFor(model => Model[0].PaymentMode)</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @for (var i = 0; i < Model.Count; i++)
+                                    {                                      
+
+                                        <tr id="tablerow_@i">
+                                            @Html.HiddenFor(item => Model[i].SpentAmountID, new { @id = "hdfSpentAmountId_" + i })
+                                            @Html.HiddenFor(item => Model[i].SpentAmountDetails)
+                                            <td>
+                                                <div id="dspSpentDate_@i">@Html.DisplayFor(item => Model[i].SpentAmountDate)</div>
+                                                @Html.EditorFor(item => Model[i].SpentAmountDate, new { @htmlAttributes = new { @id = "edfSpentDate_" + i, @class = "form-control hidden" } })
+                                            </td>
+                                            <td>
+                                                <div id="dspSpentItem_@i">@Html.DisplayFor(item => Model[i].SpentAmountItem)</div>
+                                                @Html.EditorFor(item => Model[i].SpentAmountItem, new { @htmlAttributes = new { @id = "edfSpentItem_" + i, @class = "form-control hidden" } })
+                                            </td>
+                                            <td>
+
+                                                <div id="dspSpentAmount_@i">@Html.DisplayFor(item => Model[i].AmountSpent)</div>
+                                                @Html.EditorFor(item => Model[i].AmountSpent, new { @htmlAttributes = new { @id = "edfSpentAmount_" + i, @class = "form-control hidden" } })
+
+                                            </td>
+                                            <td>
+
+                                                <div id="dspExpenseType_@i">@Html.DisplayFor(item => Model[i].ExpenseType.ExpenseTypeName)</div>
+                                                @*@Html.EditorFor(item => Model[i].ExpenseType.ExpenseTypeName, new { @htmlAttributes = new { @id = "edfExpenseType_" + i, @class = "form-control hidden" } })*@
+                                                @Html.DropDownListFor(item => Model[i].ExpenseType.ExpenseTypeId, new SelectList(ViewBag.ExpenseTypes, "ExpenseTypeId", "ExpenseTypeName", ((IEnumerable<ExpenseTypeViewModel>)ViewBag.ExpenseTypes).Where(item => item.ExpenseTypeId == Model[i].ExpenseType.ExpenseTypeId).Select(item => item.ExpenseTypeId).FirstOrDefault()), "--Select--", new { @id = "edfExpenseType_" + i, @class = "form-control hidden" })
+
+                                            </td>
+                                            <td>
+
+                                                <div id="dspPaymentMode_@i">@Html.DisplayFor(item => Model[i].PaymentMode.PaymentModeName)</div>
+                                                @*@Html.EditorFor(item => Model[i].PaymentMode.PaymentModeName, new { @htmlAttributes = new { @id = "edfPaymentMode_" + i, @class = "form-control hidden" } })*@
+                                                @Html.DropDownListFor(item => Model[i].PaymentMode.PaymentModeId, new SelectList(ViewBag.PaymentModes, "PaymentModeId", "PaymentModeName", ((IEnumerable<PaymentModeViewModel>)ViewBag.PaymentModes).Where(item => item.PaymentModeId == Model[i].PaymentMode.PaymentModeId).Select(item => item.PaymentModeId).FirstOrDefault()), "--Select--", new { @class = "form-control hidden", @id = "edfPaymentMode_" + i })
+                                            </td>
+                                            <td>
+
+                                                <a href="#" id="lnkDetails_@i">Details</a> |
+                                                <a href="#" id="lnkEdit_@i" onclick="EditLinkClick(@i)">Edit</a>
+                                                <a href="#" id="lnkUpdate_@i" class="hidden" onclick="UpdateLinkClick(@i)">Update</a>
+                                                <a href="#" id="lnkCancel_@i" class="hidden" onclick="CancelLinkClick(@i)">Cancel</a>|
+                                                @Html.ActionLink("Delete", "Delete", new { }, new { @id = "lnkDelete_" + i })
+
+                                            </td>
+                                        </tr>
+
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                </div>
+                <div class="col-sm-12 text-right">
+                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                </div>
+                <div class="col-xs-12 col-sm-offset-4 col-sm-4">
+                    @Html.PagedListPager(Model, page => Url.Action("SpentAmount", new { sortOrder = ViewBag.CurrentSortOrder, page }))
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+    });
+
+    function EditLinkClick(index) {
+        $('#lnkEdit_' + index).addClass('hidden');
+        //$('#lnkDetails_'+index).addClass('hidden');
+        //$('#lnkDelete_'+index).addClass('hidden');
+        $('#lnkUpdate_' + index).removeClass('hidden');
+        $('#lnkCancel_' + index).removeClass('hidden');
+
+
+        $('#dspSpentDate_' + index).addClass('hidden');
+        $('#dspSpentItem_' + index).addClass('hidden');
+        $('#dspSpentAmount_' + index).addClass('hidden');
+        $('#dspExpenseType_' + index).addClass('hidden');
+        $('#dspPaymentMode_' + index).addClass('hidden');
+
+
+        $('#edfSpentDate_' + index).removeClass('hidden');
+        $('#edfSpentItem_' + index).removeClass('hidden');
+        $('#edfSpentAmount_' + index).removeClass('hidden');
+        $('#edfExpenseType_' + index).removeClass('hidden');
+        $('#edfPaymentMode_' + index).removeClass('hidden');
+
+    }
+    function CancelLinkClick(index) {
+        $('#lnkEdit_' + index).removeClass('hidden');
+        //$('#lnkDetails_'+index).removeClass('hidden');
+        //$('#lnkDelete_'+index).removeClass('hidden');
+        $('#lnkUpdate_' + index).addClass('hidden');
+        $('#lnkCancel_' + index).addClass('hidden');
+
+        $('#dspSpentDate_' + index).removeClass('hidden');
+        $('#dspSpentItem_' + index).removeClass('hidden');
+        $('#dspSpentAmount_' + index).removeClass('hidden');
+        $('#dspExpenseType_' + index).removeClass('hidden');
+        $('#dspPaymentMode_' + index).removeClass('hidden');
+
+        $('#edfSpentDate_' + index).addClass('hidden');
+        $('#edfSpentItem_' + index).addClass('hidden');
+        $('#edfSpentAmount_' + index).addClass('hidden');
+        $('#edfExpenseType_' + index).addClass('hidden');
+        $('#edfPaymentMode_' + index).addClass('hidden');
+    }
+    function UpdateLinkClick(index, id) {
+       
+        
+        var modelData = {
+            "SpentAmountID": $('#hdfSpentAmountId_' + index).val(),
+            "SpentAmountDate": $('#edfSpentDate_' + index).val(),
+            "SpentAmountItem": $('#edfSpentItem_' + index).val(),
+            "AmountSpent": $('#edfSpentAmount_' + index).val(),
+            "ExpenseType":
+                {
+                    "ExpenseTypeId": $('#edfExpenseType_' + index).val(),
+                    "ExpenseTypeName": $('#edfExpenseType_' + index + ' option:selected').text()
+                },
+            "PaymentMode": 
+                {
+                    "PaymentModeId": $('#edfPaymentMode_' + index).val(),
+                    "PaymentModeName": $('#edfPaymentMode_' + index + ' option:selected').text()
+                }
+        }
+
+        $.ajax({
+
+            type: 'POST',
+            url: '/Spent/UpdateSpentAmount',
+            data: { spentAmountToUpdate: modelData },
+            datatype: 'json',
+            success: function (data) {
+                
+                var jsonDate = data.SpentAmountDate;
+                var isoStandardDate = parseInt(jsonDate.substr(6));
+                var jsDate = new Date(isoStandardDate);
+                var formattedDate = jsDate.getMonth() + 1 + '/' + jsDate.getDate() + '/' + jsDate.getFullYear();
+
+                $('#dspSpentDate_' + index).html(formattedDate);
+                $('#dspSpentItem_' + index).html(data.SpentAmountItem);
+                $('#dspSpentAmount_' + index).html(data.AmountSpent);
+                $('#dspExpenseType_' + index).html(data.ExpenseType.ExpenseTypeName);
+                $('#dspPaymentMode_' + index).html(data.PaymentMode.PaymentModeName);
+                CancelLinkClick(index);
+
+            },
+            error: function (data) {
+                alert('Error in AJAX call');
+            }
+
+
+        })
+
+    }
+
+</script>
