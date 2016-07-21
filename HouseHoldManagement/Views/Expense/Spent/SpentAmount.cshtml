@@ -19,12 +19,14 @@
             </div>
         </div>
         <div class="col-sm-offset-1 col-sm-9">
-            <div class="row row-content">
+           <div class="row row-content">
                 <div class="col-sm-12">
+                    @Html.ActionLink("Create", "", "")
+                    @{ Html.RenderPartial("CreateSpentAmount", Model[0].CreateSpentAmount)}
+                </div>
+                <div style="padding:20px;" class="col-sm-12">
                     @{Html.RenderPartial("_QuickLinks");}
                 </div>
-            </div>
-            <div class="row row-content">
                 <div class="col-sm-12">
                     @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal" }))
                     {

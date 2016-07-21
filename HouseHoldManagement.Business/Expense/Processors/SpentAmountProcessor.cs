@@ -108,6 +108,11 @@ namespace HouseHoldManagement.Business.Expense
             return updatedSpentAmount;
         }
 
+        public void CreateSpentAmount(CreateSpentAmountViewModel createSpentAmount)
+        {
+
+        }
+
 
 
     }

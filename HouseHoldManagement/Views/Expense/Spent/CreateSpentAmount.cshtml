@@ -1,0 +1,47 @@
+﻿@model HouseHoldManagement.Business.Expense.CreateSpentAmountViewModel
+
+
+@using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal novalidate" }))
+{
+    <tr>
+        <td>
+            @Html.DisplayNameFor(model => model.SpentAmountDate)
+            @Html.EditorFor(model => model.SpentAmountDate)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.SpentAmountItem)
+            @Html.EditorFor(model => model.SpentAmountItem)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.AmountSpent)
+            @Html.EditorFor(model => model.AmountSpent)
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.SpentAmountDetails)
+            @Html.DropDownListFor(model => model.PaymentMode.PaymentModeId, new SelectList(ViewBag.PaymentModes, "PaymentModeId", "PaymentModeName"), "--Select--")
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.ExpenseType)
+            @Html.DropDownListFor(model => model.ExpenseType.ExpenseTypeId, new SelectList(ViewBag.ExpenseTypes, "ExpenseTypeId", "ExpenseTypeName"), "--Select")
+        </td>
+        <td>
+            @Html.DisplayNameFor(model => model.SpentAmountDetails)
+            @Html.EditorFor(model => model.SpentAmountDetails)
+        </td>
+        <td>
+            <input type="submit" value="Create" />
+        </td>
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+    </tr>
+
+}

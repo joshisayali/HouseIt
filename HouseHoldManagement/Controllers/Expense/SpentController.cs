@@ -44,10 +44,8 @@ namespace HouseHoldManagement.Controllers.Expense
             int pageSize = 10;
             return View(spentAmounts.ToPagedList(page ?? 1, pageSize));
 
-        }
-          
+        }         
         
-              
         public ActionResult UpdateSpentAmount(SpentAmountViewModel spentAmountToUpdate)
         {
             SpentAmountProcessor spentAmountProcessor = new SpentAmountProcessor();
@@ -58,6 +56,11 @@ namespace HouseHoldManagement.Controllers.Expense
         public ActionResult DeleteSpentAmount(int spentAmountId)
         {
             return RedirectToAction("SpentAmount");
+        }
+
+        public ActionResult CreateSpentAmount(CreateSpentAmountViewModel createSpentAmount)
+        {
+            return View();
         }
 
         //[HttpPost]
