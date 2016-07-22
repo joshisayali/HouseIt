@@ -12,6 +12,7 @@ namespace HouseHoldManagement.Business.Expense
     public class SpentAmountProcessor
     {
         UnitOfWork unitOfWork = new UnitOfWork();
+        
         public List<SpentAmountViewModel> GetSpentAmount(string sortOrder, FilterResultViewModel filter)
         {
             List<SpentAmountViewModel> spentAmounts = new List<SpentAmountViewModel>();
@@ -111,6 +112,23 @@ namespace HouseHoldManagement.Business.Expense
         public void CreateSpentAmount(CreateSpentAmountViewModel createSpentAmount)
         {
 
+            var mapperConfig = new AutoMapper.MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<CreateSpentAmountViewModel, SpentAmount>()
+                .ForMember("ExpenseTypeID", conf => conf.MapFrom(src => src.ExpenseType.ExpenseTypeId))
+                .ForMember("PaymentModeID", conf => conf.MapFrom(src => src.PaymentMode.PaymentModeId))
+                .ForMember("ExpenseType", opt => opt.Ignore())
+                .ForMember("PaymentMode", opt => opt.Ignore());
+                //cfg.CreateMap<SpentAmount, CreateSpentAmountViewModel>();
+                //cfg.CreateMap<ExpenseType, ExpenseTypeViewModel>();
+                //cfg.CreateMap<PaymentMode, PaymentModeViewModel>();
+            });
+            var mapper = mapperConfig.CreateMapper();
+
+            SpentAmount itemToCreate = mapper.Map<SpentAmount>(createSpentAmount);
+
+            unitOfWork.SpentAmountRepository.Insert(itemToCreate);
+            unitOfWork.Save();
         }
 
 

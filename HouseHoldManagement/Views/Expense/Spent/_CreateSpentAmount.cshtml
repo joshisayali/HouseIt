@@ -1,0 +1,46 @@
+﻿@model HouseHoldManagement.Business.Expense.CreateSpentAmountViewModel
+
+<div id="partialViewData">
+    @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-vertical novalidate" }))
+    {
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.SpentAmountDate)
+                        @Html.EditorFor(model => model.SpentAmountDate)
+                        @Html.ValidationMessageFor(model => model.SpentAmountDate)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.SpentAmountItem)
+                        @Html.EditorFor(model => model.SpentAmountItem)
+                        @Html.ValidationMessageFor(model => model.SpentAmountItem)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.AmountSpent)
+                        @Html.EditorFor(model => model.AmountSpent)
+                        @Html.ValidationMessageFor(model => model.AmountSpent)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.PaymentMode)
+                        @Html.DropDownListFor(model => model.PaymentMode.PaymentModeId, new SelectList(ViewBag.PaymentModes, "PaymentModeId", "PaymentModeName"), "--Select--")
+                        @Html.ValidationMessageFor(model => model.PaymentMode)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.ExpenseType)
+                        @Html.DropDownListFor(model => model.ExpenseType.ExpenseTypeId, new SelectList(ViewBag.ExpenseTypes, "ExpenseTypeId", "ExpenseTypeName"), "--Select")
+                        @Html.ValidationMessageFor(model => model.ExpenseType)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.SpentAmountDetails)
+                        @Html.EditorFor(model => model.SpentAmountDetails)
+                        @Html.ValidationMessageFor(model => model.SpentAmountDetails)
+                    </td>
+                    <td>
+                        <input type="submit" value="Create" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    }
+</div>

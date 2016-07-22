@@ -22,7 +22,7 @@
            <div class="row row-content">
                 <div class="col-sm-12">
                     @Html.ActionLink("Create", "", "")
-                    @{ Html.RenderPartial("CreateSpentAmount", Model[0].CreateSpentAmount)}
+                  @*  @{ Html.RenderAction("CreateSpentAmount", "Spent");}*@
                 </div>
                 <div style="padding:20px;" class="col-sm-12">
                     @{Html.RenderPartial("_QuickLinks");}
@@ -45,11 +45,10 @@
                                 <tbody>
 
                                     @for (var i = 0; i < Model.Count; i++)
-                                    {                                      
-
-                                        <tr id="tablerow_@i">
-                                            @Html.HiddenFor(item => Model[i].SpentAmountID, new { @id = "hdfSpentAmountId_" + i })
-                                            @Html.HiddenFor(item => Model[i].SpentAmountDetails)
+                                    {
+                                        @Html.HiddenFor(item => Model[i].SpentAmountID, new { @id = "hdfSpentAmountId_" + i })
+                                        @Html.HiddenFor(item => Model[i].SpentAmountDetails)
+                                        <tr id="tablerow_@i">                                            
                                             <td>
                                                 <div id="dspSpentDate_@i">@Html.DisplayFor(item => Model[i].SpentAmountDate)</div>
                                                 @Html.EditorFor(item => Model[i].SpentAmountDate, new { @htmlAttributes = new { @id = "edfSpentDate_" + i, @class = "form-control hidden" } })

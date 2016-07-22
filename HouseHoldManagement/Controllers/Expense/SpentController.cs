@@ -58,9 +58,36 @@ namespace HouseHoldManagement.Controllers.Expense
             return RedirectToAction("SpentAmount");
         }
 
-        public ActionResult CreateSpentAmount(CreateSpentAmountViewModel createSpentAmount)
+        [ChildActionOnly]
+        public PartialViewResult CreateSpentAmount()
         {
-            return View();
+            CreateSpentAmountViewModel createSpentAmount = new CreateSpentAmountViewModel();
+            SharedProcessor sharedProcessor = new SharedProcessor();
+            ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
+            ViewBag.PaymentModes = sharedProcessor.GetPaymentModes();
+            return PartialView("_CreateSpentAmount", createSpentAmount);
+        }
+
+        [HttpPost]
+        public ActionResult CreateSpentAmount(CreateSpentAmountViewModel createSpentAmount)
+        {      
+            if(ModelState.IsValid)
+            {
+                SpentAmountProcessor spentAmountProcessor = new SpentAmountProcessor();
+                spentAmountProcessor.CreateSpentAmount(createSpentAmount);
+
+                SharedProcessor sharedProcessor = new SharedProcessor();
+                ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
+                ViewBag.PaymentModes = sharedProcessor.GetPaymentModes();
+                return PartialView("_CreateSpentAmount", new CreateSpentAmountViewModel());
+            }  
+            else
+            {
+                SharedProcessor sharedProcessor = new SharedProcessor();
+                ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
+                ViewBag.PaymentModes = sharedProcessor.GetPaymentModes();
+                return PartialView("_CreateSpentAmount", createSpentAmount);
+            }           
         }
 
         //[HttpPost]

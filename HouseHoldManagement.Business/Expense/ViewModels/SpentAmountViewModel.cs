@@ -25,8 +25,6 @@ namespace HouseHoldManagement.Business.Expense
         public PaymentModeViewModel PaymentMode { get; set; }
         [Display(Name = "Details")]
         public string SpentAmountDetails { get; set; }
-
-        public CreateSpentAmountViewModel CreateSpentAmount { get; set; }
         
     }
 }
