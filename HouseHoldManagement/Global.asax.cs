@@ -12,8 +12,8 @@ namespace HouseHoldManagement
     {
         protected void Application_Start()
         {
-            ViewEngines.Engines.Clear();
-            ViewEngines.Engines.Add(new HouseHoldViewEngine());
+            //ViewEngines.Engines.Clear();
+            //ViewEngines.Engines.Add(new HouseHoldViewEngine());
 
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);

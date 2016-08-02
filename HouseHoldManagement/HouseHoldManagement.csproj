@@ -124,9 +124,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\Shared\SharedController.cs" />
-    <Compile Include="Controllers\Expense\EarnedController.cs" />
-    <Compile Include="Controllers\Expense\SpentController.cs" />
+    <Compile Include="Controllers\SharedController.cs" />
+    <Compile Include="Controllers\EarnedController.cs" />
+    <Compile Include="Controllers\SpentController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -138,11 +138,11 @@
     <Content Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Expense\Spent\SpentAmount.cshtml" />
+    <Content Include="Views\Spent\SpentAmount.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Shared\_FilterResult.cshtml" />
     <Content Include="Views\Shared\_QuickLinks.cshtml" />
-    <Content Include="Views\Expense\Spent\_CreateSpentAmount.cshtml" />
+    <Content Include="Views\Spent\_CreateSpentAmount.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

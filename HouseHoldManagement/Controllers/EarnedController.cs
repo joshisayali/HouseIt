@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace HouseHoldManagement.Controllers.Expense
+namespace HouseHoldManagement.Controllers
 {
     public class EarnedController : Controller
     {

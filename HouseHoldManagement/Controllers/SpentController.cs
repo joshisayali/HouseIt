@@ -7,13 +7,14 @@ using System.Web.Mvc;
 using PagedList;
 using HouseHoldManagement.Business.Shared;
 
-namespace HouseHoldManagement.Controllers.Expense
+namespace HouseHoldManagement.Controllers
 {
     public class SpentController : Controller
     {
         // GET: Spent
         public ActionResult SpentAmount(string sortOrder, int? page, FilterResultViewModel filter)
         {
+            //string url = Url.Action("SpentAmount", "Spent");
             ModelState.Remove("ExpenseTypeId");
             ModelState.Remove("PaymentModeId");
             if (ModelState.IsValid && !filter.IsNullorEmpty)
@@ -58,7 +59,7 @@ namespace HouseHoldManagement.Controllers.Expense
             return RedirectToAction("SpentAmount");
         }
 
-        [ChildActionOnly]
+        //[ChildActionOnly]
         public PartialViewResult CreateSpentAmount()
         {
             CreateSpentAmountViewModel createSpentAmount = new CreateSpentAmountViewModel();
@@ -69,24 +70,27 @@ namespace HouseHoldManagement.Controllers.Expense
         }
 
         [HttpPost]
-        public ActionResult CreateSpentAmount(CreateSpentAmountViewModel createSpentAmount)
+        public ActionResult CreateSpentAmount(CreateSpentAmountViewModel spentAmountToCreate)
         {      
             if(ModelState.IsValid)
             {
                 SpentAmountProcessor spentAmountProcessor = new SpentAmountProcessor();
-                spentAmountProcessor.CreateSpentAmount(createSpentAmount);
+                spentAmountProcessor.CreateSpentAmount(spentAmountToCreate);
 
                 SharedProcessor sharedProcessor = new SharedProcessor();
                 ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
                 ViewBag.PaymentModes = sharedProcessor.GetPaymentModes();
-                return PartialView("_CreateSpentAmount", new CreateSpentAmountViewModel());
+                //return PartialView("_CreateSpentAmount", new CreateSpentAmountViewModel());
+                //string url = Url.Action("SpentAmount", "Spent");
+                
+                return Json(new { redirectUrl = "/Spent/SpentAmount", isRedirect = true });
             }  
             else
             {
                 SharedProcessor sharedProcessor = new SharedProcessor();
                 ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
                 ViewBag.PaymentModes = sharedProcessor.GetPaymentModes();
-                return PartialView("_CreateSpentAmount", createSpentAmount);
+                return PartialView("_CreateSpentAmount", spentAmountToCreate);
             }           
         }
 

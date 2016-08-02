@@ -1,0 +1,100 @@
+﻿@model HouseHoldManagement.Business.Expense.CreateSpentAmountViewModel
+
+<div id="partialViewData">
+    @*@using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-vertical novalidate" }))
+    {*@
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayNameFor(model => model.SpentAmountDate)
+                        @Html.EditorFor(model => model.SpentAmountDate, new { @htmlAttributes = new {  @id = "edfSpentAmountDate"} })
+                        @Html.ValidationMessageFor(model => model.SpentAmountDate)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.SpentAmountItem)
+                        @Html.EditorFor(model => model.SpentAmountItem, new { @htmlAttributes = new { @id = "edfSpentAmountItem" } })
+                        @Html.ValidationMessageFor(model => model.SpentAmountItem)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.AmountSpent)
+                        @Html.EditorFor(model => model.AmountSpent, new { @htmlAttributes = new { @id = "edfAmountSpent" } })
+                        @Html.ValidationMessageFor(model => model.AmountSpent)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.PaymentMode)
+                        @Html.DropDownListFor(model => model.PaymentMode.PaymentModeId, new SelectList(ViewBag.PaymentModes, "PaymentModeId", "PaymentModeName"), "--Select--", new { @id = "edfPaymentMode" })
+                        @Html.ValidationMessageFor(model => model.PaymentMode)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.ExpenseType)
+                        @Html.DropDownListFor(model => model.ExpenseType.ExpenseTypeId, new SelectList(ViewBag.ExpenseTypes, "ExpenseTypeId", "ExpenseTypeName"), "--Select", new { @id = "edfExpenseType" })
+                        @Html.ValidationMessageFor(model => model.ExpenseType)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.SpentAmountDetails)
+                        @Html.EditorFor(model => model.SpentAmountDetails, new { @htmlAttributes = new { @id = "edfSpentAmountDetails" } })
+                        @Html.ValidationMessageFor(model => model.SpentAmountDetails)
+                    </td>                    
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Create" onclick="CreateSpentAmount()" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    @*}*@
+</div>
+<script>
+    function CreateSpentAmount() {
+
+        alert('Javascript method');
+
+        var modelData = {
+           
+            "SpentAmountDate": $('#edfSpentAmountDate').val(),
+            "SpentAmountItem": $('#edfSpentAmountItem').val(),
+            "AmountSpent": $('#edfAmountSpent').val(),
+            "ExpenseType":
+                {
+                    "ExpenseTypeId": $('#edfExpenseType').val(),
+                    "ExpenseTypeName": $('#edfExpenseType option:selected').text()
+                },
+            "PaymentMode":
+                {
+                    "PaymentModeId": $('#edfPaymentMode').val(),
+                    "PaymentModeName": $('#edfPaymentMode option:selected').text()
+                },
+            "SpentAmountDetails": $('#edfSpentAmountDetails').val()
+        }
+
+        $.ajax({
+
+            type: 'POST',
+            url: '/Spent/CreateSpentAmount',
+            data: { spentAmountToCreate: modelData},
+            datatype: 'json',
+            success: function (data) {
+
+                alert('ajax success');
+                debugger;
+                if (data.isRedirect)
+                {
+                    debugger;
+                    window.location.href = data.redirectUrl;
+                }
+                else
+                {
+                    $('#partialViewData').html(data);
+                }
+
+            },
+            error: function (error) {
+                alert(error);
+            }
+
+        });
+
+    }
+</script>

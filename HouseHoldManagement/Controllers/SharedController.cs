@@ -6,7 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace HouseHoldManagement.Controllers.Expense
+namespace HouseHoldManagement.Controllers
 {
     /// <summary>
     /// Class to contain reusable code
