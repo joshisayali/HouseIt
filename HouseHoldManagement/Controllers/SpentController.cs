@@ -56,6 +56,8 @@ namespace HouseHoldManagement.Controllers
 
         public ActionResult DeleteSpentAmount(int spentAmountId)
         {
+            SpentAmountProcessor spentAmountProcessor = new SpentAmountProcessor();
+            spentAmountProcessor.DeleteSpentAmount(spentAmountId);
             return RedirectToAction("SpentAmount");
         }
 

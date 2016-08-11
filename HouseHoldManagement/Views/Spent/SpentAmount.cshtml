@@ -95,7 +95,7 @@
                                                 <a href="#" id="lnkEdit_@i" onclick="EditLinkClick(@i)">Edit</a>
                                                 <a href="#" id="lnkUpdate_@i" class="hidden" onclick="UpdateLinkClick(@i)">Update</a>
                                                 <a href="#" id="lnkCancel_@i" class="hidden" onclick="CancelLinkClick(@i)">Cancel</a>|
-                                                @Html.ActionLink("Delete", "Delete", new { }, new { @id = "lnkDelete_" + i })
+                                                @Html.ActionLink("Delete", "DeleteSpentAmount", new { spentAmountId = Model[i].SpentAmountID }, new { @id = "lnkDelete_" + i })
 
                                             </td>
                                         </tr>

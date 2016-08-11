@@ -131,6 +131,12 @@ namespace HouseHoldManagement.Business.Expense
             unitOfWork.Save();
         }
 
+        public void DeleteSpentAmount(int id)
+        {
+            unitOfWork.SpentAmountRepository.Delete(id);
+            unitOfWork.Save();
+        }
+
 
 
     }
