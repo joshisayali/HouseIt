@@ -150,6 +150,7 @@
     <Content Include="Views\Shared\_FilterResult.cshtml" />
     <Content Include="Views\Shared\_QuickLinks.cshtml" />
     <Content Include="Views\Spent\_CreateSpentAmount.cshtml" />
+    <Content Include="Views\Earned\EarnedAmount.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

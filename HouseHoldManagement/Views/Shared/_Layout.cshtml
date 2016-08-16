@@ -21,7 +21,14 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active">@Html.ActionLink("Expense", "SpentAmount", "Spent")</li>
+                    <li class="active dropdown">
+                        @*@Html.ActionLink("Expense", "SpentAmount", "Spent", new { @class = "dropdown-toggle", @data_toggle = "dropdown" })*@
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Daily Expenses<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Spent","SpentAmount", "Spent")</li>
+                            <li>@Html.ActionLink("Earned", "EarnedAmount", "Earned")</li>
+                        </ul>
+                    </li>
                     <li>@Html.ActionLink("Grocery", "SpentAmount", "Spent")</li>
                     <li>@Html.ActionLink("Travel", "SpentAmount", "Spent")</li>
                     <li>@Html.ActionLink("To Do", "SpentAmount", "Spent")</li>

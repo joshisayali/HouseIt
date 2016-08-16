@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace HouseHoldManagement.Business.Expense
 {
-    class EarnedAmountViewModel
+    public class EarnedAmountViewModel
     {
+        public IList<GetEarnedAmountViewModel> GetEarnedAmount { get; set; }
+        public CreateEarnedAmountViewModel CreateEarnedAmount { get; set; }
     }
 }
