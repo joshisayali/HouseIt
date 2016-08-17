@@ -4,17 +4,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 
 namespace HouseHoldManagement.Controllers
 {
     public class EarnedController : Controller
     {
         // GET: Earned
-        public ActionResult EarnedAmount()
+        public ActionResult EarnedAmount(string sortOrder, int? pageNumber)
         {
+            //Code for paging
+            ViewBag.CurrentSortOrder = sortOrder;
+            ViewBag.CurrentPageNumber = pageNumber;
+
+            //Sort Order : Default column
+            ViewBag.DateSortParam = string.IsNullOrEmpty(sortOrder) ? "Date_Desc" : string.Empty;
+            //Sort Order: other columns
+            ViewBag.SourceSortParam = sortOrder == "Source" ? "Source_Desc" : "Source";
+            ViewBag.AmountSortParam = sortOrder == "Amount" ? "Amount_Desc" : "Amount";
+            
+
             EarnedAmountProcessor earnedAmountProcessor = new EarnedAmountProcessor();
             EarnedAmountViewModel earned = new EarnedAmountViewModel();
-            earned.GetEarnedAmount = earnedAmountProcessor.GetEarnedAmount();
+            earned.GetEarnedAmount = earnedAmountProcessor.GetEarnedAmount(sortOrder).ToPagedList(pageNumber ?? 1, 2);
             earned.CreateEarnedAmount = new CreateEarnedAmountViewModel();
             return View(earned);
         }

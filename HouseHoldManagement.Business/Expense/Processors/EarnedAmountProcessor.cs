@@ -11,9 +11,32 @@ namespace HouseHoldManagement.Business.Expense
     {
         UnitOfWork unitOfWork = new UnitOfWork();
 
-        public List<GetEarnedAmountViewModel> GetEarnedAmount()
+        public List<GetEarnedAmountViewModel> GetEarnedAmount(string sortOrder)
         {
-            var items = unitOfWork.EarnedAmountRepository.Get(orderBy: q => q.OrderBy(i => i.EarnedAmountDate));
+            var items = unitOfWork.EarnedAmountRepository.Get();
+
+            switch(sortOrder)
+            {
+                case "Date_Desc":
+                    items = items.OrderByDescending(i => i.EarnedAmountDate);
+                    break;
+                case "Source":
+                    items = items.OrderBy(i => i.EarnedAmountSource);
+                    break;
+                case "Source_Desc":
+                    items = items.OrderByDescending(i => i.EarnedAmountSource);
+                    break;
+                case "Amount":
+                    items = items.OrderBy(i => i.AmountEarned);
+                    break;
+                case "Amount_Desc":
+                    items = items.OrderByDescending(i => i.AmountEarned);
+                    break;
+                default:
+                    items = items.OrderBy(i => i.EarnedAmountDate);
+                    break;
+            }
+
 
             var mapperConfig = new AutoMapper.MapperConfiguration(cfg =>
             {

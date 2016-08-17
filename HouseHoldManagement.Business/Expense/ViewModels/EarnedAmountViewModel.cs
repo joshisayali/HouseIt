@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PagedList;
+
 
 namespace HouseHoldManagement.Business.Expense
 {
     public class EarnedAmountViewModel
     {
-        public IList<GetEarnedAmountViewModel> GetEarnedAmount { get; set; }
+        public IPagedList<GetEarnedAmountViewModel> GetEarnedAmount { get; set; }
         public CreateEarnedAmountViewModel CreateEarnedAmount { get; set; }
     }
 }
