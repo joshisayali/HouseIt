@@ -1,4 +1,5 @@
-﻿using HouseHoldManagement.Data;
+﻿using HouseHoldManagement.Business.Shared;
+using HouseHoldManagement.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,17 @@ namespace HouseHoldManagement.Business.Expense
     {
         UnitOfWork unitOfWork = new UnitOfWork();
 
-        public List<GetEarnedAmountViewModel> GetEarnedAmount(string sortOrder)
+        public List<GetEarnedAmountViewModel> GetEarnedAmount(string sortOrder, FilterResultViewModel filter)
         {
-            var items = unitOfWork.EarnedAmountRepository.Get();
+            IEnumerable<EarnedAmount> items;
+            if (filter != null && !filter.IsNullorEmpty)
+            {
+                items = unitOfWork.EarnedAmountRepository.Get(filter: f => f.EarnedAmountDate >= filter.FromDate && f.EarnedAmountDate <= filter.ToDate);
+            }
+            else
+            {
+                items = unitOfWork.EarnedAmountRepository.Get();
+            }
 
             switch(sortOrder)
             {

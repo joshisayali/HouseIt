@@ -19,7 +19,15 @@ namespace HouseHoldManagement.Controllers
             //ModealState.IsValid could be added here, but it just duplicates the code
             ModelState.Remove("ExpenseTypeId");
             ModelState.Remove("PaymentModeId");
-            SharedProcessor sharedProcessor = new SharedProcessor();
+            SharedProcessor sharedProcessor = new SharedProcessor(); 
+            if(HttpContext.Session["CurrentFilter"] != null)
+            {
+                FilterResultViewModel currentFilter = (FilterResultViewModel)HttpContext.Session["CurrentFilter"];
+                filterResult.ExpenseTypeId = currentFilter.ExpenseTypeId;
+                filterResult.PaymentModeId = currentFilter.PaymentModeId;
+                filterResult.ToDate = currentFilter.ToDate;
+                filterResult.FromDate = currentFilter.FromDate;
+            }           
             filterResult.ExpenseTypes = sharedProcessor.GetExpenseTypes();
             filterResult.PaymentModes = sharedProcessor.GetPaymentModes();
             ViewBag.PostAction = postAction;

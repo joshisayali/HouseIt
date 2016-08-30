@@ -13,13 +13,15 @@ namespace HouseHoldManagement.Business.Shared
     {
         [Display(Name = "From Date")]
         [DataType(DataType.Date)]   
-        [ValidateMinMaxDate]        
+        [ValidateMinMaxDate]  
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]      
         public DateTime? FromDate { get; set; }
 
         [Display(Name = "To Date")]
         [DataType(DataType.Date)]
         [ValidateMinMaxDate]   
-        [DateCompare("FromDate", CompareToOperation.GreaterThan)]     
+        [DateCompare("FromDate", CompareToOperation.GreaterThan)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? ToDate { get; set; }
 
         [Display(Name = "Expense Type")]

@@ -5,17 +5,34 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
+using HouseHoldManagement.Business.Shared;
 
 namespace HouseHoldManagement.Controllers
 {
     public class EarnedController : Controller
     {
         // GET: Earned
-        public ActionResult EarnedAmount(string sortOrder, int? pageNumber)
+        //Parameter currentFilter removed - cannot pass complex type from view using route data
+        public ActionResult EarnedAmount(string sortOrder, int? pageNumber, FilterResultViewModel filter)
         {
             //Code for paging
             ViewBag.CurrentSortOrder = sortOrder;
             ViewBag.CurrentPageNumber = pageNumber;
+            //Means new filter conditions added. currentFilter parameter is required to maintain previous filter values.
+            //With each Get request (sort click, page click) parameter filter becomes null as it is populated only  
+            //on POST request that is when Filter button is clicked
+            if (!filter.IsNullorEmpty) 
+            {
+                pageNumber = 1;
+            }
+            else
+            {   
+                             
+                filter = (FilterResultViewModel)HttpContext.Session["CurrentFilter"];
+            }
+            ViewBag.CurrentFilter = filter;
+            HttpContext.Session["CurrentFilter"] = filter;
+            
 
             //Sort Order : Default column
             ViewBag.DateSortParam = string.IsNullOrEmpty(sortOrder) ? "Date_Desc" : string.Empty;
@@ -26,7 +43,7 @@ namespace HouseHoldManagement.Controllers
 
             EarnedAmountProcessor earnedAmountProcessor = new EarnedAmountProcessor();
             EarnedAmountViewModel earned = new EarnedAmountViewModel();
-            earned.GetEarnedAmount = earnedAmountProcessor.GetEarnedAmount(sortOrder).ToPagedList(pageNumber ?? 1, 2);
+            earned.GetEarnedAmount = earnedAmountProcessor.GetEarnedAmount(sortOrder, filter).ToPagedList(pageNumber ?? 1, 2);
             earned.CreateEarnedAmount = new CreateEarnedAmountViewModel();
             return View(earned);
         }
