@@ -167,6 +167,10 @@
       <Project>{9afb1453-4b58-4e80-8d86-330b10c8837b}</Project>
       <Name>HouseHoldManagement.Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\HouseHoldManagement.Utilities\HouseHoldManagement.Utilities.csproj">
+      <Project>{f1112a41-c7d3-4342-b1ce-4bcace69f495}</Project>
+      <Name>HouseHoldManagement.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

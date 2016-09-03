@@ -1,7 +1,13 @@
 ﻿
+@{ 
+    string actionName = Convert.ToString(ViewData["actionName"]);
+    string controllerName = Convert.ToString(ViewData["controllerName"]);    
+;}
 <ul class="list-unstyled list-inline">
     <li>Quick Links</li>
-    <li>@Html.ActionLink("Show Current Month", "")</li>
-    <li>@Html.ActionLink("Show Previous Month", "")</li>
-    <li>@Html.ActionLink("Show All", "")</li>
+    <li>@Html.ActionLink("Show Current Month",actionName, controllerName, new { month = "current" },new { })</li>
+    <li>@Html.ActionLink("Show Previous Month", actionName, controllerName, new { month = "previous" }, new { })</li>
+    <li>@Html.ActionLink("Show All", actionName, controllerName, new { month = "all" }, new { })</li>
 </ul>
+
+

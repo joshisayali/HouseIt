@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using HouseHoldManagement.Business.Shared;
+using HouseHoldManagement.Utilities;
 
 namespace HouseHoldManagement.Controllers
 {
@@ -13,7 +14,10 @@ namespace HouseHoldManagement.Controllers
     {
         // GET: Earned
         //Parameter currentFilter removed - cannot pass complex type from view using route data
-        public ActionResult EarnedAmount(string sortOrder, int? pageNumber, FilterResultViewModel filter)
+        //New parameter month introduced - 
+        //      1. This was added to avoid adding new parameters "FromDate" and "ToDate" and make use of existing parameter "filter"
+        //      2. This was added to avoid any date calculations on client side and send it as route values by ajax call
+        public ActionResult EarnedAmount(string sortOrder, int? pageNumber, string month, FilterResultViewModel filter)
         {
             //Code for paging
             ViewBag.CurrentSortOrder = sortOrder;
@@ -25,9 +29,26 @@ namespace HouseHoldManagement.Controllers
             {
                 pageNumber = 1;
             }
+            else if(month == "current")
+            {
+                filter = new FilterResultViewModel() {
+                    FromDate = ApplicationDateTime.FirstDayOfMonth,
+                    ToDate = ApplicationDateTime.LastDayOfMonth                     
+                };
+            }
+            else if(month == "previous")
+            {
+                filter = new FilterResultViewModel() {
+                    FromDate = ApplicationDateTime.FirstDayOfMonth.AddMonths(-1),
+                    ToDate = ApplicationDateTime.LastDayOfMonth.AddMonths(-1)
+                };
+            }
+            else if(month == "all")
+            {
+                filter = null;
+            }
             else
-            {   
-                             
+            {                                
                 filter = (FilterResultViewModel)HttpContext.Session["CurrentFilter"];
             }
             ViewBag.CurrentFilter = filter;
@@ -61,7 +82,7 @@ namespace HouseHoldManagement.Controllers
             else
             {
                 return View(earned);
-            }
+            }            
         }
 
         //[HttpPost]
@@ -86,5 +107,17 @@ namespace HouseHoldManagement.Controllers
             }
             
         }
+
+        //public ActionResult EarnedAmountByDate()
+        //{
+        //    FilterResultViewModel filterResult = new FilterResultViewModel()
+        //    {
+        //        FromDate = ApplicationDateTime.FirstDayOfMonth,
+        //        ToDate = ApplicationDateTime.LastDayOfMonth
+        //    };
+
+        //    return RedirectToAction("EarnedAmount", new { sortOrder = "", pageNumber = 1, filter = filterResult });
+
+        //}
     }
 }
