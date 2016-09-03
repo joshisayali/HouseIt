@@ -38,7 +38,7 @@
                     </div>                    
                 </div>
                 <div style="padding:20px;" class="col-sm-12">
-                    @{Html.RenderPartial("_QuickLinks");}
+                    @{Html.RenderPartial("_QuickLinks", new ViewDataDictionary { { "actionName", "SpentAmount" }, { "controllerName","Spent"} });}
                 </div>
                 <div class="col-sm-12">
                     @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal" }))

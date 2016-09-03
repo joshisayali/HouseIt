@@ -6,13 +6,14 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using HouseHoldManagement.Business.Shared;
+using HouseHoldManagement.Utilities;
 
 namespace HouseHoldManagement.Controllers
 {
     public class SpentController : Controller
     {
         // GET: Spent
-        public ActionResult SpentAmount(string sortOrder, int? page, FilterResultViewModel filter)
+        public ActionResult SpentAmount(string sortOrder, int? page, string month, FilterResultViewModel filter)
         {
             //string url = Url.Action("SpentAmount", "Spent");
             ModelState.Remove("ExpenseTypeId");
@@ -20,6 +21,27 @@ namespace HouseHoldManagement.Controllers
             if (ModelState.IsValid && !filter.IsNullorEmpty)
             {
                 page = 1;
+            }
+            else if(month == "current")
+            {
+                filter = new FilterResultViewModel()
+                {
+                    FromDate = ApplicationDateTime.FirstDayOfMonth,
+                    ToDate = ApplicationDateTime.LastDayOfMonth
+                };
+
+            }
+            else if(month == "previous")
+            {
+                filter = new FilterResultViewModel()
+                {
+                    FromDate = ApplicationDateTime.FirstDayOfMonth.AddMonths(-1),
+                    ToDate = ApplicationDateTime.LastDayOfMonth.AddMonths(-1)
+                };
+            }
+            else if(month == "all")
+            {
+                filter = null;
             }
             else
             {
