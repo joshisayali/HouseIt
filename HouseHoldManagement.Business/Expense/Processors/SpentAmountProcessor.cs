@@ -13,9 +13,9 @@ namespace HouseHoldManagement.Business.Expense
     {
         UnitOfWork unitOfWork = new UnitOfWork();
         
-        public List<SpentAmountViewModel> GetSpentAmount(string sortOrder, FilterResultViewModel filter)
+        public List<GetSpentAmountViewModel> GetSpentAmount(string sortOrder, FilterResultViewModel filter)
         {
-            List<SpentAmountViewModel> spentAmounts = new List<SpentAmountViewModel>();
+            List<GetSpentAmountViewModel> spentAmounts = new List<GetSpentAmountViewModel>();
 
             IEnumerable<SpentAmount> items = unitOfWork.SpentAmountRepository.Get(includeProperties: "ExpenseType, PaymentMode");
             if (filter != null && !filter.IsNullorEmpty)
@@ -45,12 +45,12 @@ namespace HouseHoldManagement.Business.Expense
 
             var mapperConfig = new AutoMapper.MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<SpentAmount, SpentAmountViewModel>();
+                cfg.CreateMap<SpentAmount, GetSpentAmountViewModel>();
                 cfg.CreateMap<ExpenseType, ExpenseTypeViewModel>();
                 cfg.CreateMap<PaymentMode, PaymentModeViewModel>();
             });
             var mapper = mapperConfig.CreateMapper();
-            spentAmounts = mapper.Map<List<SpentAmountViewModel>>(items.ToList());
+            spentAmounts = mapper.Map<List<GetSpentAmountViewModel>>(items.ToList());
 
 
             return spentAmounts;
@@ -84,16 +84,16 @@ namespace HouseHoldManagement.Business.Expense
             return items;
         }
 
-        public SpentAmountViewModel UpdateSpentAmount(SpentAmountViewModel spentAmountToUpdate)
+        public GetSpentAmountViewModel UpdateSpentAmount(GetSpentAmountViewModel spentAmountToUpdate)
         {
             var mapperConfig = new AutoMapper.MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<SpentAmountViewModel, SpentAmount>()
+                cfg.CreateMap<GetSpentAmountViewModel, SpentAmount>()
                 .ForMember("ExpenseTypeID", conf => conf.MapFrom(src => src.ExpenseType.ExpenseTypeId))
                 .ForMember("PaymentModeID", conf => conf.MapFrom(src => src.PaymentMode.PaymentModeId))
                 .ForMember("ExpenseType", opt => opt.Ignore())
                 .ForMember("PaymentMode", opt => opt.Ignore());
-                cfg.CreateMap<SpentAmount, SpentAmountViewModel>();
+                cfg.CreateMap<SpentAmount, GetSpentAmountViewModel>();
                 cfg.CreateMap<ExpenseType, ExpenseTypeViewModel>();
                 cfg.CreateMap<PaymentMode, PaymentModeViewModel>();
             });
@@ -104,7 +104,7 @@ namespace HouseHoldManagement.Business.Expense
             unitOfWork.Save();
 
             SpentAmount updatedItem = unitOfWork.SpentAmountRepository.GetById(filter: q => q.SpentAmountId == itemToUpdate.SpentAmountId, includeProperties: "ExpenseType, PaymentMode");
-            SpentAmountViewModel updatedSpentAmount = mapper.Map<SpentAmountViewModel>(updatedItem);
+            GetSpentAmountViewModel updatedSpentAmount = mapper.Map<GetSpentAmountViewModel>(updatedItem);
 
             return updatedSpentAmount;
         }

@@ -55,14 +55,15 @@
   <ItemGroup>
     <Compile Include="Expense\Processors\EarnedAmountProcessor.cs" />
     <Compile Include="Expense\Processors\SpentAmountProcessor.cs" />
-    <Compile Include="Expense\ViewModels\CreateEarnedAmountViewModel.cs" />
-    <Compile Include="Expense\ViewModels\CreateSpentAmountViewModel.cs" />
-    <Compile Include="Expense\ViewModels\EarnedAmountViewModel.cs" />
-    <Compile Include="Expense\ViewModels\GetEarnedAmountViewModel.cs" />
+    <Compile Include="Expense\ViewModels\Earned\CreateEarnedAmountViewModel.cs" />
+    <Compile Include="Expense\ViewModels\Spent\CreateSpentAmountViewModel.cs" />
+    <Compile Include="Expense\ViewModels\Earned\EarnedAmountViewModel.cs" />
+    <Compile Include="Expense\ViewModels\Earned\GetEarnedAmountViewModel.cs" />
+    <Compile Include="Expense\ViewModels\Spent\GetSpentAmountViewModel.cs" />
     <Compile Include="Shared\ViewModels\ExpenseTypeViewModel.cs" />
     <Compile Include="Shared\ViewModels\FilterResultViewModel.cs" />
     <Compile Include="Shared\ViewModels\PaymentModeViewModel.cs" />
-    <Compile Include="Expense\ViewModels\SpentAmountViewModel.cs" />
+    <Compile Include="Expense\ViewModels\Spent\SpentAmountViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\Processors\SharedProcessor.cs" />
   </ItemGroup>

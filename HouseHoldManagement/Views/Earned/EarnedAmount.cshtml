@@ -1,0 +1,216 @@
+﻿@using PagedList.Mvc;
+@using HouseHoldManagement.Business.Shared;
+@model HouseHoldManagement.Business.Expense.EarnedAmountViewModel
+
+@{
+    ViewBag.Title = "EarnedAmount";
+}
+
+<h2>Earned</h2>
+
+<div class="container">
+    <div class="row row-content">
+        <div class="col-xs-12 col-sm-2">
+            <div class="row row-content">
+                @{Html.RenderAction("GetFilterView", "Shared", new { PostAction = "EarnedAmount", PostController = "Earned" });}
+                
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-offset-1 col-sm-9">
+            <div class="row row-content">
+                <div class="col-sm-12">
+                    <a data-toggle="modal" data-target="#createAmt" href="#">Create</a>
+                    <div id="createAmt" class="modal fade">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Add Earned Amount</h4>
+                                </div>
+                                <div class="modal-body">
+                                    @using (Html.BeginForm("CreateEarnedAmount", "Earned", FormMethod.Post, new { @class = "form-vertical novalidate" }))
+                                    {
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.CreateEarnedAmount.EarnedAmountDate, new { @class = "control-label" })
+                                                    @Html.EditorFor(model => model.CreateEarnedAmount.EarnedAmountDate, new { @htmlAttributes = new { @id = "edfEarnedAmountDate", @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.CreateEarnedAmount.EarnedAmountDate, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.CreateEarnedAmount.EarnedAmountSource, new { @class = "control-label" })
+                                                    @Html.EditorFor(model => model.CreateEarnedAmount.EarnedAmountSource, new { @htmlAttributes = new { @id = "edfEarnedAmountSource", @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.CreateEarnedAmount.EarnedAmountSource, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.CreateEarnedAmount.AmountEarned, new { @class = "control-label" })
+                                                    @Html.EditorFor(model => model.CreateEarnedAmount.AmountEarned, new { @htmlAttributes = new { @id = "edfAmountEarned", @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.CreateEarnedAmount.AmountEarned, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.CreateEarnedAmount.EarnedAmountDetails, new { @class = "control-label" })
+                                                    @Html.EditorFor(model => model.CreateEarnedAmount.EarnedAmountDetails, new { @htmlAttributes = new { @id = "edfEarnedAmountDetails", @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.CreateEarnedAmount.EarnedAmountDetails, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <button type="submit" class="btn btn-primary">Create</button>
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="padding:20px;" class="col-sm-12">
+                    @{Html.RenderPartial("_QuickLinks", new ViewDataDictionary { { "actionName", "EarnedAmount" }, { "controllerName" , "Earned" } });}
+                </div>
+                <div class="col-sm-12">
+                    @using (Html.BeginForm("", "", FormMethod.Post, new { @id = "frmEarnedAmount", @class = "form-horizontal" }))
+                    {
+
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                @*<tr>
+                                    @{ var curFil = ViewBag.CurrentFilter; }
+                                    <td>@ViewBag.CurrentFilter.FromDate</td>
+                                    <td>@ViewBag.CurrentFilter.ToDate</td>
+                                    <td>@curFil.FromDate</td>
+                                    <td>@curFil.ToDate</td>
+                                </tr>*@
+                                <tr>
+                                    <th>@Html.ActionLink("Date","EarnedAmount",new { sortOrder = ViewBag.DateSortParam, pageNumber = ViewBag.CurrentPageNumber})</th>
+                                    <th>@Html.ActionLink("Source","EarnedAmount", new { sortOrder = ViewBag.SourceSortParam, pageNumber = ViewBag.CurrentPageNumber})</th>
+                                    <th>@Html.ActionLink("Amount", "EarnedAmount", new { sortOrder = ViewBag.AmountSortParam, pageNumber = ViewBag.CurrentPageNumber})</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (var i = 0; i < Model.GetEarnedAmount.Count; i++)
+                                    {
+                                    @Html.HiddenFor(model => Model.GetEarnedAmount[i].EarnedAmountId, new { @id = "hdnId_" + i })
+                                    @Html.HiddenFor(model => Model.GetEarnedAmount[i].EarnedAmountDetails, new { @id = "hdnDetails_" + i })
+                                    <tr>
+                                        <td>
+                                            <div id="dspDate_@i">@Html.DisplayFor(model => Model.GetEarnedAmount[i].EarnedAmountDate)</div>
+                                            @Html.EditorFor(model => Model.GetEarnedAmount[i].EarnedAmountDate, new { @htmlAttributes = new { @id = "edfDate_"+ i, @class = "form-control hidden" } })
+                                        </td>
+                                        <td>
+                                            <div id="dspSource_@i">@Html.DisplayFor(model => Model.GetEarnedAmount[i].EarnedAmountSource)</div>
+                                            @Html.EditorFor(model => Model.GetEarnedAmount[i].EarnedAmountSource, new { @htmlAttributes = new { @id = "edfSource_"+ i, @class = "form-control hidden" } })
+
+                                        </td>
+                                        <td>
+                                            <div id="dspAmt_@i">@Html.DisplayFor(model => Model.GetEarnedAmount[i].AmountEarned)</div>
+                                            @Html.EditorFor(model => Model.GetEarnedAmount[i].AmountEarned, new { @htmlAttributes = new { @id = "edfAmt_"+i, @class = "form-control hidden" } })
+                                        </td>
+                                        <td>
+                                            <a href="#" id="lnkDetails_@i" onclick="">Details</a> |
+                                            <a href="#" id="lnkEdit_@i" onclick="EditEarnedAmount(@i)">Edit</a>
+                                            <a href="#" id="lnkUpdate_@i" class="hidden" onclick="UpdateEarnedAmount(@i)">Update</a>
+                                            <a href="#" id="lnkCancel_@i" class="hidden" onclick="CancelEarnedAmount(@i)">Cancel</a>|
+                                            @Html.ActionLink("Delete","DeleteEarnedAmount",new { id = Model.GetEarnedAmount[i].EarnedAmountId })
+                                        </td>
+                                    </tr>
+                                    }
+                            </tbody>
+                        </table>
+                    </div>
+                    }
+
+                </div>
+                <div class="col-xs-12 text-right">
+                    Page @(Model.GetEarnedAmount.PageCount < Model.GetEarnedAmount.PageNumber ? 0 : Model.GetEarnedAmount.PageNumber) of @Model.GetEarnedAmount.PageCount
+                </div>
+                <div class="col-xs-12 col-sm-offset-4 col-sm-4">
+                    @Html.PagedListPager(Model.GetEarnedAmount, pageNumber => Url.Action("EarnedAmount", new { pageNumber, sortOrder = ViewBag.CurrentSortOrder }))
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    function EditEarnedAmount(index) {
+        $('#dspDate_' + index).addClass('hidden');
+        $('#dspSource_' + index).addClass('hidden');
+        $('#dspAmt_' + index).addClass('hidden');
+        $('#lnkEdit_' + index).addClass('hidden');
+
+
+        $('#edfDate_' + index).removeClass('hidden');
+        $('#edfSource_' + index).removeClass('hidden');
+        $('#edfAmt_' + index).removeClass('hidden');
+        $('#lnkUpdate_' + index).removeClass('hidden');
+        $('#lnkCancel_' + index).removeClass('hidden');
+    }
+
+    function CancelEarnedAmount(index) {
+        $('#dspDate_' + index).removeClass('hidden');
+        $('#dspSource_' + index).removeClass('hidden');
+        $('#dspAmt_' + index).removeClass('hidden');
+        $('#lnkEdit_' + index).removeClass('hidden');
+
+
+        $('#edfDate_' + index).addClass('hidden');
+        $('#edfSource_' + index).addClass('hidden');
+        $('#edfAmt_' + index).addClass('hidden');
+        $('#lnkUpdate_' + index).addClass('hidden');
+        $('#lnkCancel_' + index).addClass('hidden');
+    }
+
+    function UpdateEarnedAmount(index) {
+        var modelData = {
+
+            "EarnedAmountId": $('#hdnId_' + index).val(),
+            "EarnedAmountDate": $('#edfDate_' + index).val(),
+            "EarnedAmountSource": $('#edfSource_' + index).val(),
+            "AmountEarned": $('#edfAmt_' + index).val(),
+            "EarnedAmountDetails": $('#hdnDetails_' + index).val()
+        };
+
+        $.ajax({
+
+            type: 'POST',
+            url: '/Earned/UpdateEarnedAmount',
+            datatype: 'json',
+            data: { earnedAmount: modelData },
+            success: function (data) {
+
+                var jsonDate = data.EarnedAmountDate;
+                var isoStandardDate = parseInt(jsonDate.substr(6));
+                var jsDate = new Date(isoStandardDate);
+                var formattedDate = jsDate.getMonth() + 1 + '/' + jsDate.getDate() + '/' + jsDate.getFullYear();
+
+
+
+                $('#hdnId_' + index).html(data.EarnedAmountId);
+                $('#dspDate_' + index).html(formattedDate);
+                $('#dspSource_' + index).html(data.EarnedAmountSource);
+                $('#dspAmt_' + index).html(data.AmountEarned);
+                $('#hdnDetails_' + index).html(data.EarnedAmountDetails);
+                CancelEarnedAmount(index);
+            },
+            error: function () {
+                alert("error in update");
+            }
+
+        });
+    }
+
+</script>
+

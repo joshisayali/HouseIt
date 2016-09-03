@@ -58,21 +58,24 @@ namespace HouseHoldManagement.Controllers
             ViewBag.AmountSortOrder = sortOrder == "amount" ? "amount_desc" : "amount";
 
             SpentAmountProcessor spentAmountProcessor = new SpentAmountProcessor();
-            List<SpentAmountViewModel> spentAmounts = spentAmountProcessor.GetSpentAmount(sortOrder, filter);
+            SpentAmountViewModel spent = new SpentAmountViewModel()
+            {
+                CreateSpentAmount = new CreateSpentAmountViewModel(),
+                GetSpentAmount = spentAmountProcessor.GetSpentAmount(sortOrder, filter).ToPagedList(page ?? 1, 10)
+            };
 
             SharedProcessor sharedProcessor = new SharedProcessor();
             ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
             ViewBag.PaymentModes = sharedProcessor.GetPaymentModes();
-
-            int pageSize = 10;
-            return View(spentAmounts.ToPagedList(page ?? 1, pageSize));
+            
+            return View(spent);
 
         }         
         
-        public ActionResult UpdateSpentAmount(SpentAmountViewModel spentAmountToUpdate)
+        public ActionResult UpdateSpentAmount(GetSpentAmountViewModel spentAmountToUpdate)
         {
             SpentAmountProcessor spentAmountProcessor = new SpentAmountProcessor();
-            SpentAmountViewModel updatedSpentAmount = spentAmountProcessor.UpdateSpentAmount(spentAmountToUpdate);
+            GetSpentAmountViewModel updatedSpentAmount = spentAmountProcessor.UpdateSpentAmount(spentAmountToUpdate);
             return Json(updatedSpentAmount);
         }
 
@@ -83,40 +86,46 @@ namespace HouseHoldManagement.Controllers
             return RedirectToAction("SpentAmount");
         }
 
-        //[ChildActionOnly]
-        public PartialViewResult CreateSpentAmount()
-        {
-            CreateSpentAmountViewModel createSpentAmount = new CreateSpentAmountViewModel();
-            SharedProcessor sharedProcessor = new SharedProcessor();
-            ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
-            ViewBag.PaymentModes = sharedProcessor.GetPaymentModes();
-            return PartialView("_CreateSpentAmount", createSpentAmount);
-        }
-
         [HttpPost]
-        public ActionResult CreateSpentAmount(CreateSpentAmountViewModel spentAmountToCreate)
-        {      
-            if(ModelState.IsValid)
+        public ActionResult CreateSpentAmount(SpentAmountViewModel spent)
+        {
+            if (ModelState.IsValid)
             {
+                CreateSpentAmountViewModel spentAmount = spent.CreateSpentAmount;
                 SpentAmountProcessor spentAmountProcessor = new SpentAmountProcessor();
-                spentAmountProcessor.CreateSpentAmount(spentAmountToCreate);
-
-                SharedProcessor sharedProcessor = new SharedProcessor();
-                ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
-                ViewBag.PaymentModes = sharedProcessor.GetPaymentModes();
-                //return PartialView("_CreateSpentAmount", new CreateSpentAmountViewModel());
-                //string url = Url.Action("SpentAmount", "Spent");
-                
-                return Json(new { redirectUrl = "/Spent/SpentAmount", isRedirect = true });
-            }  
+                spentAmountProcessor.CreateSpentAmount(spentAmount);
+                return RedirectToAction("SpentAmount");
+            }
             else
             {
-                SharedProcessor sharedProcessor = new SharedProcessor();
-                ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
-                ViewBag.PaymentModes = sharedProcessor.GetPaymentModes();
-                return PartialView("_CreateSpentAmount", spentAmountToCreate);
-            }           
+                return View(spent);
+            }            
         }
+
+        //[HttpPost]
+        //public ActionResult CreateSpentAmount(CreateSpentAmountViewModel spentAmountToCreate)
+        //{      
+        //    if(ModelState.IsValid)
+        //    {
+        //        SpentAmountProcessor spentAmountProcessor = new SpentAmountProcessor();
+        //        spentAmountProcessor.CreateSpentAmount(spentAmountToCreate);
+
+        //        SharedProcessor sharedProcessor = new SharedProcessor();
+        //        ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
+        //        ViewBag.PaymentModes = sharedProcessor.GetPaymentModes();
+        //        //return PartialView("_CreateSpentAmount", new CreateSpentAmountViewModel());
+        //        //string url = Url.Action("SpentAmount", "Spent");
+                
+        //        return Json(new { redirectUrl = "/Spent/SpentAmount", isRedirect = true });
+        //    }  
+        //    else
+        //    {
+        //        SharedProcessor sharedProcessor = new SharedProcessor();
+        //        ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
+        //        ViewBag.PaymentModes = sharedProcessor.GetPaymentModes();
+        //        return PartialView("_CreateSpentAmount", spentAmountToCreate);
+        //    }           
+        //}
 
         //[HttpPost]
         //public ActionResult FilterResult(FilterResultViewModel filter)

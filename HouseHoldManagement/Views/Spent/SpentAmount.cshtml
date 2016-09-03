@@ -2,7 +2,7 @@
 @using HouseHoldManagement.Business.Shared;
 @using PagedList.Mvc;
 @*@model IEnumerable<SpentAmountViewModel>*@
-@model PagedList.IPagedList<SpentAmountViewModel>
+@model HouseHoldManagement.Business.Expense.SpentAmountViewModel
 
 @{
     ViewBag.Title = "Spent";
@@ -19,10 +19,10 @@
             </div>
         </div>
         <div class="col-sm-offset-1 col-sm-9">
-           <div class="row row-content">
+            <div class="row row-content">
                 <div class="col-sm-12">
                     @*@Html.ActionLink("Create", "", "",new { data_toggle = "modal", data_target = "#createAmt" })*@
-                    <a data-toggle="modal" data-target="#createAmt" href="#">Create</a>                    
+                    <a data-toggle="modal" data-target="#createAmt" href="#">Create</a>
                     <div id="createAmt" class="modal fade">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
@@ -31,14 +31,72 @@
                                     <h4 class="modal-title">Add Spent Amount</h4>
                                 </div>
                                 <div class="modal-body">
-                                    @{ Html.RenderAction("CreateSpentAmount", "Spent");}
+                                    @using (Html.BeginForm("CreateSpentAmount", "Spent", FormMethod.Post, new { @class = "form-vertical novalidate" }))
+                                    {
+                                        <form class="form-vertical">
+                                            <div class="container">
+                                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => Model.CreateSpentAmount.SpentAmountDate, new { @class = "control-label" })
+                                                            @Html.EditorFor(model => Model.CreateSpentAmount.SpentAmountDate, new { @htmlAttributes = new { @id = "edfSpentAmountDate", @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => Model.CreateSpentAmount.SpentAmountDate, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => Model.CreateSpentAmount.SpentAmountItem, new { @class = "control-label" })
+                                                            @Html.EditorFor(model => Model.CreateSpentAmount.SpentAmountItem, new { @htmlAttributes = new { @id = "edfSpentAmountItem", @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => Model.CreateSpentAmount.SpentAmountItem, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => Model.CreateSpentAmount.AmountSpent, new { @class = "control-label" })
+                                                            @Html.EditorFor(model => Model.CreateSpentAmount.AmountSpent, new { @htmlAttributes = new { @id = "edfAmountSpent", @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => Model.CreateSpentAmount.AmountSpent, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => Model.CreateSpentAmount.PaymentMode, new { @class = "control-label" })
+                                                            @Html.DropDownListFor(model => Model.CreateSpentAmount.PaymentMode.PaymentModeId, new SelectList(ViewBag.PaymentModes, "PaymentModeId", "PaymentModeName"), "--Select--", new { @id = "edfPaymentMode", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => Model.CreateSpentAmount.PaymentMode, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => Model.CreateSpentAmount.ExpenseType, new { @class = "control-label" })
+                                                            @Html.DropDownListFor(model => Model.CreateSpentAmount.ExpenseType.ExpenseTypeId, new SelectList(ViewBag.ExpenseTypes, "ExpenseTypeId", "ExpenseTypeName"), "--Select", new { @id = "edfExpenseType", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => Model.CreateSpentAmount.ExpenseType, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => Model.CreateSpentAmount.SpentAmountDetails, new { @class = "control-label" })
+                                                            @Html.EditorFor(model => Model.CreateSpentAmount.SpentAmountDetails, new { @htmlAttributes = new { @id = "edfSpentAmountDetails", @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => Model.CreateSpentAmount.SpentAmountDetails, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <button type="submit" class="btn btn-primary">Create</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    }
                                 </div>
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
                 <div style="padding:20px;" class="col-sm-12">
-                    @{Html.RenderPartial("_QuickLinks", new ViewDataDictionary { { "actionName", "SpentAmount" }, { "controllerName","Spent"} });}
+                    @{Html.RenderPartial("_QuickLinks", new ViewDataDictionary { { "actionName", "SpentAmount" }, { "controllerName", "Spent" } });}
                 </div>
                 <div class="col-sm-12">
                     @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "form-horizontal" }))
@@ -48,46 +106,46 @@
                                 <thead>
                                     <tr>
                                         <th>@Html.ActionLink("Date", "SpentAmount", new { sortOrder = ViewBag.DateSortOrder, page = ViewBag.CurrentPageNumber })</th>
-                                        <th>@Html.DisplayNameFor(model => Model[0].SpentAmountItem)</th>
+                                        <th>@Html.DisplayNameFor(model => Model.GetSpentAmount[0].SpentAmountItem)</th>
                                         <th>@Html.ActionLink("Amount", "SpentAmount", new { sortOrder = ViewBag.AmountSortOrder, page = ViewBag.CurrentPageNumber })</th>
-                                        <th>@Html.DisplayNameFor(model => Model[0].ExpenseType)</th>
-                                        <th>@Html.DisplayNameFor(model => Model[0].PaymentMode)</th>
+                                        <th>@Html.DisplayNameFor(model => Model.GetSpentAmount[0].ExpenseType)</th>
+                                        <th>@Html.DisplayNameFor(model => Model.GetSpentAmount[0].PaymentMode)</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
-                                    @for (var i = 0; i < Model.Count; i++)
+                                    @for (var i = 0; i < Model.GetSpentAmount.Count; i++)
                                     {
-                                        @Html.HiddenFor(item => Model[i].SpentAmountID, new { @id = "hdfSpentAmountId_" + i })
-                                        @Html.HiddenFor(item => Model[i].SpentAmountDetails)
-                                        <tr id="tablerow_@i">                                            
+                                        @Html.HiddenFor(item => Model.GetSpentAmount[i].SpentAmountID, new { @id = "hdfSpentAmountId_" + i })
+                                        @Html.HiddenFor(item => Model.GetSpentAmount[i].SpentAmountDetails)
+                                        <tr id="tablerow_@i">
                                             <td>
-                                                <div id="dspSpentDate_@i">@Html.DisplayFor(item => Model[i].SpentAmountDate)</div>
-                                                @Html.EditorFor(item => Model[i].SpentAmountDate, new { @htmlAttributes = new { @id = "edfSpentDate_" + i, @class = "form-control hidden" } })
+                                                <div id="dspSpentDate_@i">@Html.DisplayFor(item => Model.GetSpentAmount[i].SpentAmountDate)</div>
+                                                @Html.EditorFor(item => Model.GetSpentAmount[i].SpentAmountDate, new { @htmlAttributes = new { @id = "edfSpentDate_" + i, @class = "form-control hidden" } })
                                             </td>
                                             <td>
-                                                <div id="dspSpentItem_@i">@Html.DisplayFor(item => Model[i].SpentAmountItem)</div>
-                                                @Html.EditorFor(item => Model[i].SpentAmountItem, new { @htmlAttributes = new { @id = "edfSpentItem_" + i, @class = "form-control hidden" } })
-                                            </td>
-                                            <td>
-
-                                                <div id="dspSpentAmount_@i">@Html.DisplayFor(item => Model[i].AmountSpent)</div>
-                                                @Html.EditorFor(item => Model[i].AmountSpent, new { @htmlAttributes = new { @id = "edfSpentAmount_" + i, @class = "form-control hidden" } })
-
+                                                <div id="dspSpentItem_@i">@Html.DisplayFor(item => Model.GetSpentAmount[i].SpentAmountItem)</div>
+                                                @Html.EditorFor(item => Model.GetSpentAmount[i].SpentAmountItem, new { @htmlAttributes = new { @id = "edfSpentItem_" + i, @class = "form-control hidden" } })
                                             </td>
                                             <td>
 
-                                                <div id="dspExpenseType_@i">@Html.DisplayFor(item => Model[i].ExpenseType.ExpenseTypeName)</div>
+                                                <div id="dspSpentAmount_@i">@Html.DisplayFor(item => Model.GetSpentAmount[i].AmountSpent)</div>
+                                                @Html.EditorFor(item => Model.GetSpentAmount[i].AmountSpent, new { @htmlAttributes = new { @id = "edfSpentAmount_" + i, @class = "form-control hidden" } })
+
+                                            </td>
+                                            <td>
+
+                                                <div id="dspExpenseType_@i">@Html.DisplayFor(item => Model.GetSpentAmount[i].ExpenseType.ExpenseTypeName)</div>
                                                 @*@Html.EditorFor(item => Model[i].ExpenseType.ExpenseTypeName, new { @htmlAttributes = new { @id = "edfExpenseType_" + i, @class = "form-control hidden" } })*@
-                                                @Html.DropDownListFor(item => Model[i].ExpenseType.ExpenseTypeId, new SelectList(ViewBag.ExpenseTypes, "ExpenseTypeId", "ExpenseTypeName", ((IEnumerable<ExpenseTypeViewModel>)ViewBag.ExpenseTypes).Where(item => item.ExpenseTypeId == Model[i].ExpenseType.ExpenseTypeId).Select(item => item.ExpenseTypeId).FirstOrDefault()), "--Select--", new { @id = "edfExpenseType_" + i, @class = "form-control hidden" })
+                                                @Html.DropDownListFor(item => Model.GetSpentAmount[i].ExpenseType.ExpenseTypeId, new SelectList(ViewBag.ExpenseTypes, "ExpenseTypeId", "ExpenseTypeName", ((IEnumerable<ExpenseTypeViewModel>)ViewBag.ExpenseTypes).Where(item => item.ExpenseTypeId == Model.GetSpentAmount[i].ExpenseType.ExpenseTypeId).Select(item => item.ExpenseTypeId).FirstOrDefault()), "--Select--", new { @id = "edfExpenseType_" + i, @class = "form-control hidden" })
 
                                             </td>
                                             <td>
 
-                                                <div id="dspPaymentMode_@i">@Html.DisplayFor(item => Model[i].PaymentMode.PaymentModeName)</div>
+                                                <div id="dspPaymentMode_@i">@Html.DisplayFor(item => Model.GetSpentAmount[i].PaymentMode.PaymentModeName)</div>
                                                 @*@Html.EditorFor(item => Model[i].PaymentMode.PaymentModeName, new { @htmlAttributes = new { @id = "edfPaymentMode_" + i, @class = "form-control hidden" } })*@
-                                                @Html.DropDownListFor(item => Model[i].PaymentMode.PaymentModeId, new SelectList(ViewBag.PaymentModes, "PaymentModeId", "PaymentModeName", ((IEnumerable<PaymentModeViewModel>)ViewBag.PaymentModes).Where(item => item.PaymentModeId == Model[i].PaymentMode.PaymentModeId).Select(item => item.PaymentModeId).FirstOrDefault()), "--Select--", new { @class = "form-control hidden", @id = "edfPaymentMode_" + i })
+                                                @Html.DropDownListFor(item => Model.GetSpentAmount[i].PaymentMode.PaymentModeId, new SelectList(ViewBag.PaymentModes, "PaymentModeId", "PaymentModeName", ((IEnumerable<PaymentModeViewModel>)ViewBag.PaymentModes).Where(item => item.PaymentModeId == Model.GetSpentAmount[i].PaymentMode.PaymentModeId).Select(item => item.PaymentModeId).FirstOrDefault()), "--Select--", new { @class = "form-control hidden", @id = "edfPaymentMode_" + i })
                                             </td>
                                             <td>
 
@@ -95,7 +153,7 @@
                                                 <a href="#" id="lnkEdit_@i" onclick="EditLinkClick(@i)">Edit</a>
                                                 <a href="#" id="lnkUpdate_@i" class="hidden" onclick="UpdateLinkClick(@i)">Update</a>
                                                 <a href="#" id="lnkCancel_@i" class="hidden" onclick="CancelLinkClick(@i)">Cancel</a>|
-                                                @Html.ActionLink("Delete", "DeleteSpentAmount", new { spentAmountId = Model[i].SpentAmountID }, new { @id = "lnkDelete_" + i })
+                                                @Html.ActionLink("Delete", "DeleteSpentAmount", new { spentAmountId = Model.GetSpentAmount[i].SpentAmountID }, new { @id = "lnkDelete_" + i })
 
                                             </td>
                                         </tr>
@@ -109,10 +167,10 @@
 
                 </div>
                 <div class="col-sm-12 text-right">
-                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                    Page @(Model.GetSpentAmount.PageCount < Model.GetSpentAmount.PageNumber ? 0 : Model.GetSpentAmount.PageNumber) of @Model.GetSpentAmount.PageCount
                 </div>
                 <div class="col-xs-12 col-sm-offset-4 col-sm-4">
-                    @Html.PagedListPager(Model, page => Url.Action("SpentAmount", new { sortOrder = ViewBag.CurrentSortOrder, page }))
+                    @Html.PagedListPager(Model.GetSpentAmount, page => Url.Action("SpentAmount", new { sortOrder = ViewBag.CurrentSortOrder, page }))
                 </div>
 
             </div>
@@ -169,8 +227,8 @@
         $('#edfPaymentMode_' + index).addClass('hidden');
     }
     function UpdateLinkClick(index, id) {
-       
-        
+
+
         var modelData = {
             "SpentAmountID": $('#hdfSpentAmountId_' + index).val(),
             "SpentAmountDate": $('#edfSpentDate_' + index).val(),
@@ -181,7 +239,7 @@
                     "ExpenseTypeId": $('#edfExpenseType_' + index).val(),
                     "ExpenseTypeName": $('#edfExpenseType_' + index + ' option:selected').text()
                 },
-            "PaymentMode": 
+            "PaymentMode":
                 {
                     "PaymentModeId": $('#edfPaymentMode_' + index).val(),
                     "PaymentModeName": $('#edfPaymentMode_' + index + ' option:selected').text()
@@ -195,7 +253,7 @@
             data: { spentAmountToUpdate: modelData },
             datatype: 'json',
             success: function (data) {
-                
+
                 var jsonDate = data.SpentAmountDate;
                 var isoStandardDate = parseInt(jsonDate.substr(6));
                 var jsDate = new Date(isoStandardDate);
