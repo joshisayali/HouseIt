@@ -12,7 +12,7 @@ namespace HouseHoldManagement.Business.Expense
     {
         UnitOfWork unitOfWork = new UnitOfWork();
 
-        public List<GetEarnedAmountViewModel> GetEarnedAmount(string sortOrder, FilterResultViewModel filter)
+        public List<GetEarnedAmountViewModel> GetEarnedAmount(string sortOrder, ExpenseFilterViewModel filter)
         {
             IEnumerable<EarnedAmount> items;
             if (filter != null && !filter.IsNullorEmpty)

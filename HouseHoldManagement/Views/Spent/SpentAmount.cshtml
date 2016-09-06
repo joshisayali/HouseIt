@@ -14,7 +14,8 @@
     <div class="row row-content">
         <div class="col-sm-2">
             <div class="row row-content">
-                @{Html.RenderAction("GetFilterView", "Shared", new { PostAction = "SpentAmount", PostController = "Spent" });} @*To Do: Pass action name and controller name to filter view*@
+                
+                @{Html.RenderPartial("_FilterResult", Model.Filter, new ViewDataDictionary { { "PostAction", "SpentAmount" }, { "PostController","Spent" } });}
 
             </div>
         </div>

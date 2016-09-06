@@ -13,7 +13,7 @@ namespace HouseHoldManagement.Business.Expense
     {
         UnitOfWork unitOfWork = new UnitOfWork();
         
-        public List<GetSpentAmountViewModel> GetSpentAmount(string sortOrder, FilterResultViewModel filter)
+        public List<GetSpentAmountViewModel> GetSpentAmount(string sortOrder, ExpenseFilterViewModel filter)
         {
             List<GetSpentAmountViewModel> spentAmounts = new List<GetSpentAmountViewModel>();
 
@@ -56,7 +56,7 @@ namespace HouseHoldManagement.Business.Expense
             return spentAmounts;
         }
 
-        private IEnumerable<SpentAmount> FilterSpentAmount(IEnumerable<SpentAmount> items, FilterResultViewModel filter)
+        private IEnumerable<SpentAmount> FilterSpentAmount(IEnumerable<SpentAmount> items, ExpenseFilterViewModel filter)
         {
             //List<SpentAmountViewModel> spentAmounts = new List<SpentAmountViewModel>();
 

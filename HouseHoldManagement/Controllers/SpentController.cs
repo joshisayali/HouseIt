@@ -13,7 +13,7 @@ namespace HouseHoldManagement.Controllers
     public class SpentController : Controller
     {
         // GET: Spent
-        public ActionResult SpentAmount(string sortOrder, int? page, string month, FilterResultViewModel filter)
+        public ActionResult SpentAmount(string sortOrder, int? page, string month, ExpenseFilterViewModel filter)
         {
             //string url = Url.Action("SpentAmount", "Spent");
             ModelState.Remove("ExpenseTypeId");
@@ -24,7 +24,7 @@ namespace HouseHoldManagement.Controllers
             }
             else if(month == "current")
             {
-                filter = new FilterResultViewModel()
+                filter = new ExpenseFilterViewModel()
                 {
                     FromDate = ApplicationDateTime.FirstDayOfMonth,
                     ToDate = ApplicationDateTime.LastDayOfMonth
@@ -33,7 +33,7 @@ namespace HouseHoldManagement.Controllers
             }
             else if(month == "previous")
             {
-                filter = new FilterResultViewModel()
+                filter = new ExpenseFilterViewModel()
                 {
                     FromDate = ApplicationDateTime.FirstDayOfMonth.AddMonths(-1),
                     ToDate = ApplicationDateTime.LastDayOfMonth.AddMonths(-1)
@@ -41,11 +41,18 @@ namespace HouseHoldManagement.Controllers
             }
             else if(month == "all")
             {
-                filter = null;
+                filter = new ExpenseFilterViewModel {
+                     FromDate = ApplicationDateTime.MinDate,
+                     ToDate = ApplicationDateTime.MaxDate
+                };
+            }
+            else if(HttpContext.Session["CurrentFilter"] == null)
+            {
+                filter = new ExpenseFilterViewModel();                                 
             }
             else
             {
-                filter = (FilterResultViewModel)HttpContext.Session["CurrentFilter"];
+                filter = (ExpenseFilterViewModel)HttpContext.Session["CurrentFilter"];
             }
 
             HttpContext.Session["CurrentFilter"] = filter;
@@ -57,16 +64,23 @@ namespace HouseHoldManagement.Controllers
             ViewBag.DateSortOrder = sortOrder == "date" ? "date_dec" : "date";
             ViewBag.AmountSortOrder = sortOrder == "amount" ? "amount_desc" : "amount";
 
+
+            //This is for in-place edit
+            SharedProcessor sharedProcessor = new SharedProcessor();
+            ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
+            ViewBag.PaymentModes = sharedProcessor.GetPaymentModes();
+
+            //This code is to populate drop downs in partial view - filter
+            filter.ExpenseTypes = sharedProcessor.GetExpenseTypes();
+            filter.PaymentModes = sharedProcessor.GetPaymentModes();
+
             SpentAmountProcessor spentAmountProcessor = new SpentAmountProcessor();
             SpentAmountViewModel spent = new SpentAmountViewModel()
             {
                 CreateSpentAmount = new CreateSpentAmountViewModel(),
-                GetSpentAmount = spentAmountProcessor.GetSpentAmount(sortOrder, filter).ToPagedList(page ?? 1, 10)
-            };
-
-            SharedProcessor sharedProcessor = new SharedProcessor();
-            ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
-            ViewBag.PaymentModes = sharedProcessor.GetPaymentModes();
+                GetSpentAmount = spentAmountProcessor.GetSpentAmount(sortOrder, filter).ToPagedList(page ?? 1, 10),
+                Filter = filter                 
+            };            
             
             return View(spent);
 

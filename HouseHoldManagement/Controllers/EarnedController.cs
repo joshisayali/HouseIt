@@ -17,7 +17,7 @@ namespace HouseHoldManagement.Controllers
         //New parameter month introduced - 
         //      1. This was added to avoid adding new parameters "FromDate" and "ToDate" and make use of existing parameter "filter"
         //      2. This was added to avoid any date calculations on client side and send it as route values by ajax call
-        public ActionResult EarnedAmount(string sortOrder, int? pageNumber, string month, FilterResultViewModel filter)
+        public ActionResult EarnedAmount(string sortOrder, int? pageNumber, string month, ExpenseFilterViewModel filter)
         {
             //Code for paging
             ViewBag.CurrentSortOrder = sortOrder;
@@ -25,54 +25,73 @@ namespace HouseHoldManagement.Controllers
             //Means new filter conditions added. currentFilter parameter is required to maintain previous filter values.
             //With each Get request (sort click, page click) parameter filter becomes null as it is populated only  
             //on POST request that is when Filter button is clicked
-            if (!filter.IsNullorEmpty) 
+            if (!filter.IsNullorEmpty)
             {
                 pageNumber = 1;
             }
-            else if(month == "current")
+            else if (month == "current")
             {
-                filter = new FilterResultViewModel() {
+                filter = new ExpenseFilterViewModel()
+                {
                     FromDate = ApplicationDateTime.FirstDayOfMonth,
-                    ToDate = ApplicationDateTime.LastDayOfMonth                     
+                    ToDate = ApplicationDateTime.LastDayOfMonth
                 };
             }
-            else if(month == "previous")
+            else if (month == "previous")
             {
-                filter = new FilterResultViewModel() {
+                filter = new ExpenseFilterViewModel()
+                {
                     FromDate = ApplicationDateTime.FirstDayOfMonth.AddMonths(-1),
                     ToDate = ApplicationDateTime.LastDayOfMonth.AddMonths(-1)
                 };
             }
-            else if(month == "all")
+            else if (month == "all")
             {
-                filter = null;
+                filter = new ExpenseFilterViewModel
+                {
+                    FromDate = ApplicationDateTime.MinDate,
+                    ToDate = ApplicationDateTime.MaxDate
+                };
+            }
+            else if (HttpContext.Session["CurrentFilter"] == null)
+            {
+                filter = new ExpenseFilterViewModel();
             }
             else
-            {                                
-                filter = (FilterResultViewModel)HttpContext.Session["CurrentFilter"];
+            {
+                filter = (ExpenseFilterViewModel)HttpContext.Session["CurrentFilter"];
             }
+
+            SharedProcessor sharedProcessor = new SharedProcessor();
+            filter.ExpenseTypes = sharedProcessor.GetExpenseTypes();
+            filter.PaymentModes = sharedProcessor.GetPaymentModes();
+
             ViewBag.CurrentFilter = filter;
             HttpContext.Session["CurrentFilter"] = filter;
-            
+
 
             //Sort Order : Default column
             ViewBag.DateSortParam = string.IsNullOrEmpty(sortOrder) ? "Date_Desc" : string.Empty;
             //Sort Order: other columns
             ViewBag.SourceSortParam = sortOrder == "Source" ? "Source_Desc" : "Source";
             ViewBag.AmountSortParam = sortOrder == "Amount" ? "Amount_Desc" : "Amount";
-            
+
 
             EarnedAmountProcessor earnedAmountProcessor = new EarnedAmountProcessor();
-            EarnedAmountViewModel earned = new EarnedAmountViewModel();
-            earned.GetEarnedAmount = earnedAmountProcessor.GetEarnedAmount(sortOrder, filter).ToPagedList(pageNumber ?? 1, 2);
-            earned.CreateEarnedAmount = new CreateEarnedAmountViewModel();
+            EarnedAmountViewModel earned = new EarnedAmountViewModel
+            {
+                GetEarnedAmount = earnedAmountProcessor.GetEarnedAmount(sortOrder, filter).ToPagedList(pageNumber ?? 1, 2),
+                CreateEarnedAmount = new CreateEarnedAmountViewModel(),
+                Filter = filter
+            };
+
             return View(earned);
         }
 
         [HttpPost]
         public ActionResult CreateEarnedAmount(EarnedAmountViewModel earned)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 CreateEarnedAmountViewModel earnedAmount = earned.CreateEarnedAmount;
                 EarnedAmountProcessor earnedAmountProcessor = new EarnedAmountProcessor();
@@ -82,7 +101,7 @@ namespace HouseHoldManagement.Controllers
             else
             {
                 return View(earned);
-            }            
+            }
         }
 
         //[HttpPost]
@@ -95,7 +114,7 @@ namespace HouseHoldManagement.Controllers
 
         public ActionResult UpdateEarnedAmount(GetEarnedAmountViewModel earnedAmount)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 EarnedAmountProcessor earnedAmountProcessor = new EarnedAmountProcessor();
                 GetEarnedAmountViewModel updatedEarnedAmount = earnedAmountProcessor.UpdateEarnedAmount(earnedAmount);
@@ -105,7 +124,7 @@ namespace HouseHoldManagement.Controllers
             {
                 return Json(earnedAmount);
             }
-            
+
         }
 
         //public ActionResult EarnedAmountByDate()
