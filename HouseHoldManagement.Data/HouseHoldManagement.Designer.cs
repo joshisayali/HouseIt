@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'c:\users\sayali\documents\visual studio 2015\Projects\HouseHoldManagement\HouseHoldManagement.Data\HouseHoldManagement.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Sayali\Documents\Sayali\GitHub\HouseIt\HouseHoldManagement.Data\HouseHoldManagement.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

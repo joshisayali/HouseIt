@@ -24,6 +24,7 @@ namespace HouseHoldManagement.Data
         public string PaymentModeName { get; set; }
         public string PaymentModeDescription { get; set; }
         public Nullable<bool> IsInUse { get; set; }
+        public Nullable<bool> IsOutOfPocket { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SpentAmount> SpentAmounts { get; set; }

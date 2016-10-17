@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HouseHoldManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HouseHoldManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="EarnedAmount">
           <Key>
             <PropertyRef Name="EarnedAmountId" />
@@ -39,6 +39,7 @@
           <Property Name="PaymentModeName" Type="varchar" MaxLength="50" />
           <Property Name="PaymentModeDescription" Type="varchar" MaxLength="100" />
           <Property Name="IsInUse" Type="bit" />
+          <Property Name="IsOutOfPocket" Type="bit" />
         </EntityType>
         <EntityType Name="SpentAmount">
           <Key>
@@ -51,6 +52,7 @@
           <Property Name="ExpenseTypeID" Type="int" Nullable="false" />
           <Property Name="PaymentModeID" Type="int" Nullable="false" />
           <Property Name="SpentAmountDetails" Type="varchar" MaxLength="200" />
+          <Property Name="IsRecurringExpense" Type="bit" />
         </EntityType>
         <Association Name="FK__SpentAmou__Expen__164452B1">
           <End Role="ExpenseType" Type="Self.ExpenseType" Multiplicity="1" />
@@ -91,8 +93,7 @@
             <End Role="SpentAmount" EntitySet="SpentAmount" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HouseHoldManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -132,6 +133,7 @@
           <Property Name="PaymentModeDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsInUse" Type="Boolean" />
           <NavigationProperty Name="SpentAmounts" Relationship="Self.FK__SpentAmou__Payme__173876EA" FromRole="PaymentMode" ToRole="SpentAmount" />
+          <Property Name="IsOutOfPocket" Type="Boolean" />
         </EntityType>
         <EntityType Name="SpentAmount">
           <Key>
@@ -146,6 +148,7 @@
           <Property Name="SpentAmountDetails" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ExpenseType" Relationship="Self.FK__SpentAmou__Expen__164452B1" FromRole="SpentAmount" ToRole="ExpenseType" />
           <NavigationProperty Name="PaymentMode" Relationship="Self.FK__SpentAmou__Payme__173876EA" FromRole="SpentAmount" ToRole="PaymentMode" />
+          <Property Name="IsRecurringExpense" Type="Boolean" />
         </EntityType>
         <Association Name="FK__SpentAmou__Expen__164452B1">
           <End Role="ExpenseType" Type="Self.ExpenseType" Multiplicity="1" />
@@ -224,6 +227,7 @@
           <EntitySetMapping Name="PaymentModes">
             <EntityTypeMapping TypeName="HouseHoldManagementModel.PaymentMode">
               <MappingFragment StoreEntitySet="PaymentMode">
+                <ScalarProperty Name="IsOutOfPocket" ColumnName="IsOutOfPocket" />
                 <ScalarProperty Name="PaymentModeId" ColumnName="PaymentModeId" />
                 <ScalarProperty Name="PaymentModeName" ColumnName="PaymentModeName" />
                 <ScalarProperty Name="PaymentModeDescription" ColumnName="PaymentModeDescription" />
@@ -234,6 +238,7 @@
           <EntitySetMapping Name="SpentAmounts">
             <EntityTypeMapping TypeName="HouseHoldManagementModel.SpentAmount">
               <MappingFragment StoreEntitySet="SpentAmount">
+                <ScalarProperty Name="IsRecurringExpense" ColumnName="IsRecurringExpense" />
                 <ScalarProperty Name="SpentAmountId" ColumnName="SpentAmountId" />
                 <ScalarProperty Name="SpentAmountDate" ColumnName="SpentAmountDate" />
                 <ScalarProperty Name="SpentAmountItem" ColumnName="SpentAmountItem" />

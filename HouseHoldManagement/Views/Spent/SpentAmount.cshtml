@@ -84,6 +84,17 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            @*@Html.LabelFor(model => Model.CreateSpentAmount.IsRecurringExpense, new { @class = "control-label" })
+                                                            @Html.EditorFor(model => Model.CreateSpentAmount.IsRecurringExpense, new { @htmlAttributes = new { @id = "edfIsRecurringExpense", @class = "form-control" } })*@
+                                                            @Html.LabelFor(model => Model.CreateSpentAmount.IsRecurringExpense, new { @class = "control-label" })
+                                                            @Html.CheckBoxFor(model => Model.CreateSpentAmount.IsRecurringExpense, new { @htmlAttributes = new { @id = "chxIsRecurringExpense", @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => Model.CreateSpentAmount.IsRecurringExpense, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
                                                     <div class="col-xs-12">
                                                         <button type="submit" class="btn btn-primary">Create</button>
                                                     </div>
@@ -106,6 +117,7 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
+                                        <th>@Html.DisplayNameFor(model => model.GetSpentAmount[0].IsRecurringExpense)</th>
                                         <th>@Html.ActionLink("Date", "SpentAmount", new { sortOrder = ViewBag.DateSortOrder, page = ViewBag.CurrentPageNumber })</th>
                                         <th>@Html.DisplayNameFor(model => Model.GetSpentAmount[0].SpentAmountItem)</th>
                                         <th>@Html.ActionLink("Amount", "SpentAmount", new { sortOrder = ViewBag.AmountSortOrder, page = ViewBag.CurrentPageNumber })</th>
@@ -121,6 +133,9 @@
                                         @Html.HiddenFor(item => Model.GetSpentAmount[i].SpentAmountID, new { @id = "hdfSpentAmountId_" + i })
                                         @Html.HiddenFor(item => Model.GetSpentAmount[i].SpentAmountDetails)
                                         <tr id="tablerow_@i">
+                                            <td>
+                                                <div>@Html.DisplayFor(item => Model.GetSpentAmount[i].IsRecurringExpense)</div>
+                                            </td>
                                             <td>
                                                 <div id="dspSpentDate_@i">@Html.DisplayFor(item => Model.GetSpentAmount[i].SpentAmountDate)</div>
                                                 @Html.EditorFor(item => Model.GetSpentAmount[i].SpentAmountDate, new { @htmlAttributes = new { @id = "edfSpentDate_" + i, @class = "form-control hidden" } })

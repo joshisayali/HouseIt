@@ -29,5 +29,7 @@ namespace HouseHoldManagement.Business.Expense
         public PaymentModeViewModel PaymentMode { get; set; }
         [Display(Name = "Details")]
         public string SpentAmountDetails { get; set; }
+        [Display(Name = "Is Recurring")]
+        public bool IsRecurringExpense { get; set; }
     }
 }
