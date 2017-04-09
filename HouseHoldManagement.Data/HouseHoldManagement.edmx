@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HouseHoldManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HouseHoldManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="EarnedAmount">
           <Key>
             <PropertyRef Name="EarnedAmountId" />
@@ -81,6 +81,8 @@
           <Property Name="PaymentModeID" Type="int" Nullable="false" />
           <Property Name="SpentAmountDetails" Type="varchar" MaxLength="200" />
           <Property Name="IsRecurringExpense" Type="bit" />
+          <Property Name="ExpenseSubCategoryId" Type="int" />
+          <Property Name="RepeatId" Type="int" />
         </EntityType>
         <Association Name="FK__ExpenseSu__Expen__267ABA7A">
           <End Role="ExpenseCategory" Type="Self.ExpenseCategory" Multiplicity="0..1" />
@@ -106,6 +108,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__SpentAmou__Expen__2B3F6F97">
+          <End Role="ExpenseSubCategory" Type="Self.ExpenseSubCategory" Multiplicity="0..1" />
+          <End Role="SpentAmount" Type="Self.SpentAmount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseSubCategory">
+              <PropertyRef Name="ExpenseSubCategoryId" />
+            </Principal>
+            <Dependent Role="SpentAmount">
+              <PropertyRef Name="ExpenseSubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__SpentAmou__Payme__173876EA">
           <End Role="PaymentMode" Type="Self.PaymentMode" Multiplicity="1" />
           <End Role="SpentAmount" Type="Self.SpentAmount" Multiplicity="*" />
@@ -115,6 +129,18 @@
             </Principal>
             <Dependent Role="SpentAmount">
               <PropertyRef Name="PaymentModeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SpentAmou__Repea__2C3393D0">
+          <End Role="ExpenseRepeatFrequency" Type="Self.ExpenseRepeatFrequency" Multiplicity="0..1" />
+          <End Role="SpentAmount" Type="Self.SpentAmount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseRepeatFrequency">
+              <PropertyRef Name="RepeatId" />
+            </Principal>
+            <Dependent Role="SpentAmount">
+              <PropertyRef Name="RepeatId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -135,13 +161,20 @@
             <End Role="ExpenseType" EntitySet="ExpenseType" />
             <End Role="SpentAmount" EntitySet="SpentAmount" />
           </AssociationSet>
+          <AssociationSet Name="FK__SpentAmou__Expen__2B3F6F97" Association="Self.FK__SpentAmou__Expen__2B3F6F97">
+            <End Role="ExpenseSubCategory" EntitySet="ExpenseSubCategory" />
+            <End Role="SpentAmount" EntitySet="SpentAmount" />
+          </AssociationSet>
           <AssociationSet Name="FK__SpentAmou__Payme__173876EA" Association="Self.FK__SpentAmou__Payme__173876EA">
             <End Role="PaymentMode" EntitySet="PaymentMode" />
             <End Role="SpentAmount" EntitySet="SpentAmount" />
           </AssociationSet>
+          <AssociationSet Name="FK__SpentAmou__Repea__2C3393D0" Association="Self.FK__SpentAmou__Repea__2C3393D0">
+            <End Role="ExpenseRepeatFrequency" EntitySet="ExpenseRepeatFrequency" />
+            <End Role="SpentAmount" EntitySet="SpentAmount" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HouseHoldManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -173,6 +206,7 @@
           <Property Name="Frequency" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FrequencyDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsInUse" Type="Boolean" />
+          <NavigationProperty Name="SpentAmounts" Relationship="HouseHoldManagementModel.FK__SpentAmou__Repea__2C3393D0" FromRole="ExpenseRepeatFrequency" ToRole="SpentAmount" />
         </EntityType>
         <EntityType Name="ExpenseSubCategory">
           <Key>
@@ -184,6 +218,7 @@
           <Property Name="SubCategoryDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="IsInUse" Type="Boolean" />
           <NavigationProperty Name="ExpenseCategory" Relationship="Self.FK__ExpenseSu__Expen__267ABA7A" FromRole="ExpenseSubCategory" ToRole="ExpenseCategory" />
+          <NavigationProperty Name="SpentAmounts" Relationship="HouseHoldManagementModel.FK__SpentAmou__Expen__2B3F6F97" FromRole="ExpenseSubCategory" ToRole="SpentAmount" />
         </EntityType>
         <EntityType Name="ExpenseType">
           <Key>
@@ -227,6 +262,10 @@
           <Property Name="IsRecurringExpense" Type="Boolean" />
           <NavigationProperty Name="ExpenseType" Relationship="Self.FK__SpentAmou__Expen__164452B1" FromRole="SpentAmount" ToRole="ExpenseType" />
           <NavigationProperty Name="PaymentMode" Relationship="Self.FK__SpentAmou__Payme__173876EA" FromRole="SpentAmount" ToRole="PaymentMode" />
+          <Property Name="ExpenseSubCategoryId" Type="Int32" />
+          <Property Name="RepeatId" Type="Int32" />
+          <NavigationProperty Name="ExpenseRepeatFrequency" Relationship="HouseHoldManagementModel.FK__SpentAmou__Repea__2C3393D0" FromRole="SpentAmount" ToRole="ExpenseRepeatFrequency" />
+          <NavigationProperty Name="ExpenseSubCategory" Relationship="HouseHoldManagementModel.FK__SpentAmou__Expen__2B3F6F97" FromRole="SpentAmount" ToRole="ExpenseSubCategory" />
         </EntityType>
         <Association Name="FK__ExpenseSu__Expen__267ABA7A">
           <End Role="ExpenseCategory" Type="Self.ExpenseCategory" Multiplicity="0..1" />
@@ -285,7 +324,39 @@
             <End Role="PaymentMode" EntitySet="PaymentModes" />
             <End Role="SpentAmount" EntitySet="SpentAmounts" />
           </AssociationSet>
+          <AssociationSet Name="FK__SpentAmou__Repea__2C3393D0" Association="HouseHoldManagementModel.FK__SpentAmou__Repea__2C3393D0">
+            <End Role="ExpenseRepeatFrequency" EntitySet="ExpenseRepeatFrequencies" />
+            <End Role="SpentAmount" EntitySet="SpentAmounts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SpentAmou__Expen__2B3F6F97" Association="HouseHoldManagementModel.FK__SpentAmou__Expen__2B3F6F97">
+            <End Role="ExpenseSubCategory" EntitySet="ExpenseSubCategories" />
+            <End Role="SpentAmount" EntitySet="SpentAmounts" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK__SpentAmou__Repea__2C3393D0">
+          <End Type="HouseHoldManagementModel.ExpenseRepeatFrequency" Role="ExpenseRepeatFrequency" Multiplicity="0..1" />
+          <End Type="HouseHoldManagementModel.SpentAmount" Role="SpentAmount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseRepeatFrequency">
+              <PropertyRef Name="RepeatId" />
+            </Principal>
+            <Dependent Role="SpentAmount">
+              <PropertyRef Name="RepeatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SpentAmou__Expen__2B3F6F97">
+          <End Type="HouseHoldManagementModel.ExpenseSubCategory" Role="ExpenseSubCategory" Multiplicity="0..1" />
+          <End Type="HouseHoldManagementModel.SpentAmount" Role="SpentAmount" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseSubCategory">
+              <PropertyRef Name="ExpenseSubCategoryId" />
+            </Principal>
+            <Dependent Role="SpentAmount">
+              <PropertyRef Name="ExpenseSubCategoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -366,6 +437,8 @@
           <EntitySetMapping Name="SpentAmounts">
             <EntityTypeMapping TypeName="HouseHoldManagementModel.SpentAmount">
               <MappingFragment StoreEntitySet="SpentAmount">
+                <ScalarProperty Name="RepeatId" ColumnName="RepeatId" />
+                <ScalarProperty Name="ExpenseSubCategoryId" ColumnName="ExpenseSubCategoryId" />
                 <ScalarProperty Name="SpentAmountId" ColumnName="SpentAmountId" />
                 <ScalarProperty Name="SpentAmountDate" ColumnName="SpentAmountDate" />
                 <ScalarProperty Name="SpentAmountItem" ColumnName="SpentAmountItem" />

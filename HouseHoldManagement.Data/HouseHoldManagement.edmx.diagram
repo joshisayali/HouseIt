@@ -16,6 +16,8 @@
         <AssociationConnector Association="HouseHoldManagementModel.FK__ExpenseSu__Expen__267ABA7A" ManuallyRouted="false" />
         <AssociationConnector Association="HouseHoldManagementModel.FK__SpentAmou__Expen__164452B1" ManuallyRouted="false" />
         <AssociationConnector Association="HouseHoldManagementModel.FK__SpentAmou__Payme__173876EA" ManuallyRouted="false" />
+        <AssociationConnector Association="HouseHoldManagementModel.FK__SpentAmou__Repea__2C3393D0" />
+        <AssociationConnector Association="HouseHoldManagementModel.FK__SpentAmou__Expen__2B3F6F97" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -78,14 +78,14 @@
                                                     <div class="col-sm-3">
                                                         <div class="form-group">
                                                             @Html.LabelFor(model => Model.CreateSpentAmount.ExpenseSubCategory, new { @class = "control-label" })
-                                                            @Html.DropDownListFor(model => Model.CreateSpentAmount.ExpenseSubCategory.ExpenseCategoryId, new SelectList(ViewBag.ExpenseSubCategories, "ExpenseSubCategoryId", "ExpenseSubCategoryName"), "--Select--", new { @id = "edfExpenseType", @class = "form-control" })
+                                                            @Html.DropDownListFor(model => Model.CreateSpentAmount.ExpenseSubCategory.ExpenseSubCategoryId, new SelectList(ViewBag.ExpenseSubCategories, "ExpenseSubCategoryId", "ExpenseSubCategoryName"), "--Select--", new { @id = "edfExpenseType", @class = "form-control" })
                                                             @Html.ValidationMessageFor(model => Model.CreateSpentAmount.ExpenseSubCategory, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-3">
                                                         <div class="form-group">
                                                             @Html.LabelFor(model => Model.CreateSpentAmount.ExpenseRepeatFrequency, new { @class = "control-label" })
-                                                            @Html.DropDownListFor(model => Model.CreateSpentAmount.ExpenseRepeatFrequency.RepeatId, new SelectList(ViewBag.ExpenseRepeatFrequencies, "RepeatId", "Frequency"), "--Select", new { @id = "edfExpenseRepeat", @class = "form-control" })
+                                                            @Html.DropDownListFor(model => Model.CreateSpentAmount.ExpenseRepeatFrequency.RepeatId, new SelectList(ViewBag.ExpenseRepeatFrequencies, "RepeatId", "Frequency"), "--Select--", new { @id = "edfExpenseRepeat", @class = "form-control" })
                                                             @Html.ValidationMessageFor(model => Model.CreateSpentAmount.ExpenseRepeatFrequency, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>

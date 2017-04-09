@@ -48,6 +48,8 @@ namespace HouseHoldManagement.Business.Expense
                 cfg.CreateMap<SpentAmount, GetSpentAmountViewModel>();
                 cfg.CreateMap<ExpenseType, ExpenseTypeViewModel>();
                 cfg.CreateMap<PaymentMode, PaymentModeViewModel>();
+                cfg.CreateMap<ExpenseSubCategory, ExpenseSubCategoryViewModel>();
+                cfg.CreateMap<ExpenseRepeatFrequency, ExpenseRepeatFrequencyViewModel>();
             });
             var mapper = mapperConfig.CreateMapper();
             spentAmounts = mapper.Map<List<GetSpentAmountViewModel>>(items.ToList());
@@ -117,8 +119,12 @@ namespace HouseHoldManagement.Business.Expense
                 cfg.CreateMap<CreateSpentAmountViewModel, SpentAmount>()
                 //.ForMember("ExpenseTypeID", conf => conf.MapFrom(src => src.ExpenseType.ExpenseTypeId))                
                 .ForMember("PaymentModeID", conf => conf.MapFrom(src => src.PaymentMode.PaymentModeId))
+                .ForMember("ExpenseSubCategoryId", conf => conf.MapFrom(src => src.ExpenseSubCategory.ExpenseSubCategoryId))
+                .ForMember ("RepeatId", conf => conf.MapFrom(src => src.ExpenseRepeatFrequency.RepeatId))
                 .ForMember("ExpenseType", opt => opt.Ignore())
-                .ForMember("PaymentMode", opt => opt.Ignore());
+                .ForMember("PaymentMode", opt => opt.Ignore())
+                .ForMember("ExpenseSubCategory", opt => opt.Ignore())
+                .ForMember("ExpenseRepeatFrequency", opt => opt.Ignore());
                 //cfg.CreateMap<SpentAmount, CreateSpentAmountViewModel>();
                 //cfg.CreateMap<ExpenseType, ExpenseTypeViewModel>();
                 //cfg.CreateMap<PaymentMode, PaymentModeViewModel>();
@@ -126,7 +132,8 @@ namespace HouseHoldManagement.Business.Expense
             var mapper = mapperConfig.CreateMapper();
 
             SpentAmount itemToCreate = mapper.Map<SpentAmount>(createSpentAmount);
-
+            //To Do: delete below line of code
+            itemToCreate.ExpenseTypeID = 5;
             unitOfWork.SpentAmountRepository.Insert(itemToCreate);
             unitOfWork.Save();
         }

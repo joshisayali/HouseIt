@@ -22,8 +22,12 @@ namespace HouseHoldManagement.Data
         public int PaymentModeID { get; set; }
         public string SpentAmountDetails { get; set; }
         public Nullable<bool> IsRecurringExpense { get; set; }
+        public Nullable<int> ExpenseSubCategoryId { get; set; }
+        public Nullable<int> RepeatId { get; set; }
     
         public virtual ExpenseType ExpenseType { get; set; }
         public virtual PaymentMode PaymentMode { get; set; }
+        public virtual ExpenseRepeatFrequency ExpenseRepeatFrequency { get; set; }
+        public virtual ExpenseSubCategory ExpenseSubCategory { get; set; }
     }
 }
