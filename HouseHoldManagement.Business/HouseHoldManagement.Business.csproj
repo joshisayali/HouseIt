@@ -60,7 +60,10 @@
     <Compile Include="Expense\ViewModels\Earned\EarnedAmountViewModel.cs" />
     <Compile Include="Expense\ViewModels\Earned\GetEarnedAmountViewModel.cs" />
     <Compile Include="Expense\ViewModels\Spent\GetSpentAmountViewModel.cs" />
+    <Compile Include="Shared\ViewModels\ExpenseCategoryViewModel.cs" />
     <Compile Include="Shared\ViewModels\ExpenseFilterViewModel.cs" />
+    <Compile Include="Shared\ViewModels\ExpenseRepeatFrequencyViewModel.cs" />
+    <Compile Include="Shared\ViewModels\ExpenseSubCategoryViewModel.cs" />
     <Compile Include="Shared\ViewModels\ExpenseTypeViewModel.cs" />
     <Compile Include="Shared\ViewModels\FilterResultViewModel.cs" />
     <Compile Include="Shared\ViewModels\PaymentModeViewModel.cs" />

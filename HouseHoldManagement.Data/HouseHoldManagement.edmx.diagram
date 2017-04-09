@@ -4,12 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d19f06d1930c4f3fbefd22f0a33d03e0" Name="Diagram1">
-        <EntityTypeShape EntityType="HouseHoldManagementModel.EarnedAmount" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HouseHoldManagementModel.ExpenseType" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HouseHoldManagementModel.Month" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+      <Diagram DiagramId="1d4152c0befc4784b8ebe1521d2ccdbb" Name="Diagram1">
+        <EntityTypeShape EntityType="HouseHoldManagementModel.EarnedAmount" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HouseHoldManagementModel.ExpenseCategory" Width="1.5" PointX="2.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HouseHoldManagementModel.ExpenseRepeatFrequency" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HouseHoldManagementModel.ExpenseSubCategory" Width="1.5" PointX="5" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HouseHoldManagementModel.ExpenseType" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HouseHoldManagementModel.Month" Width="1.5" PointX="7.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="HouseHoldManagementModel.PaymentMode" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="HouseHoldManagementModel.SpentAmount" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="HouseHoldManagementModel.FK__ExpenseSu__Expen__267ABA7A" ManuallyRouted="false" />
         <AssociationConnector Association="HouseHoldManagementModel.FK__SpentAmou__Expen__164452B1" ManuallyRouted="false" />
         <AssociationConnector Association="HouseHoldManagementModel.FK__SpentAmou__Payme__173876EA" ManuallyRouted="false" />
       </Diagram>

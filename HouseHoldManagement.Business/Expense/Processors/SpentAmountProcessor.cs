@@ -115,7 +115,7 @@ namespace HouseHoldManagement.Business.Expense
             var mapperConfig = new AutoMapper.MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<CreateSpentAmountViewModel, SpentAmount>()
-                .ForMember("ExpenseTypeID", conf => conf.MapFrom(src => src.ExpenseType.ExpenseTypeId))
+                //.ForMember("ExpenseTypeID", conf => conf.MapFrom(src => src.ExpenseType.ExpenseTypeId))                
                 .ForMember("PaymentModeID", conf => conf.MapFrom(src => src.PaymentMode.PaymentModeId))
                 .ForMember("ExpenseType", opt => opt.Ignore())
                 .ForMember("PaymentMode", opt => opt.Ignore());

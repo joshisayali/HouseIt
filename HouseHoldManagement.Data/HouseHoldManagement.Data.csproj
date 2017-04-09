@@ -51,13 +51,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GenericRepository.cs" />
     <Compile Include="EarnedAmount.cs">
+      <DependentUpon>HouseHoldManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExpenseCategory.cs">
+      <DependentUpon>HouseHoldManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExpenseRepeatFrequency.cs">
+      <DependentUpon>HouseHoldManagement.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExpenseSubCategory.cs">
       <DependentUpon>HouseHoldManagement.tt</DependentUpon>
     </Compile>
     <Compile Include="ExpenseType.cs">
       <DependentUpon>HouseHoldManagement.tt</DependentUpon>
     </Compile>
+    <Compile Include="GenericRepository.cs" />
     <Compile Include="HouseHoldManagement.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -86,17 +95,18 @@
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <EntityDeploy Include="HouseHoldManagement.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HouseHoldManagement.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
     <None Include="HouseHoldManagement.edmx.diagram">
       <DependentUpon>HouseHoldManagement.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="HouseHoldManagement.Context.tt">
@@ -109,9 +119,6 @@
       <DependentUpon>HouseHoldManagement.edmx</DependentUpon>
       <LastGenOutput>HouseHoldManagement.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

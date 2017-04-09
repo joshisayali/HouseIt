@@ -14,8 +14,8 @@
     <div class="row row-content">
         <div class="col-sm-2">
             <div class="row row-content">
-                
-                @{Html.RenderPartial("_FilterResult", Model.Filter, new ViewDataDictionary { { "PostAction", "SpentAmount" }, { "PostController","Spent" } });}
+
+                @{Html.RenderPartial("_FilterResult", Model.Filter, new ViewDataDictionary { { "PostAction", "SpentAmount" }, { "PostController", "Spent" } });}
 
             </div>
         </div>
@@ -68,13 +68,30 @@
                                                             @Html.ValidationMessageFor(model => Model.CreateSpentAmount.PaymentMode, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
+                                                    @*<div class="col-sm-3">
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(model => Model.CreateSpentAmount.ExpenseType, new { @class = "control-label" })
+                                                                @Html.DropDownListFor(model => Model.CreateSpentAmount.ExpenseType.ExpenseTypeId, new SelectList(ViewBag.ExpenseTypes, "ExpenseTypeId", "ExpenseTypeName"), "--Select", new { @id = "edfExpenseType", @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => Model.CreateSpentAmount.ExpenseType, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>*@
                                                     <div class="col-sm-3">
                                                         <div class="form-group">
-                                                            @Html.LabelFor(model => Model.CreateSpentAmount.ExpenseType, new { @class = "control-label" })
-                                                            @Html.DropDownListFor(model => Model.CreateSpentAmount.ExpenseType.ExpenseTypeId, new SelectList(ViewBag.ExpenseTypes, "ExpenseTypeId", "ExpenseTypeName"), "--Select", new { @id = "edfExpenseType", @class = "form-control" })
-                                                            @Html.ValidationMessageFor(model => Model.CreateSpentAmount.ExpenseType, "", new { @class = "text-danger" })
+                                                            @Html.LabelFor(model => Model.CreateSpentAmount.ExpenseSubCategory, new { @class = "control-label" })
+                                                            @Html.DropDownListFor(model => Model.CreateSpentAmount.ExpenseSubCategory.ExpenseCategoryId, new SelectList(ViewBag.ExpenseSubCategories, "ExpenseSubCategoryId", "ExpenseSubCategoryName"), "--Select--", new { @id = "edfExpenseType", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => Model.CreateSpentAmount.ExpenseSubCategory, "", new { @class = "text-danger" })
                                                         </div>
                                                     </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(model => Model.CreateSpentAmount.ExpenseRepeatFrequency, new { @class = "control-label" })
+                                                            @Html.DropDownListFor(model => Model.CreateSpentAmount.ExpenseRepeatFrequency.RepeatId, new SelectList(ViewBag.ExpenseRepeatFrequencies, "RepeatId", "Frequency"), "--Select", new { @id = "edfExpenseRepeat", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => Model.CreateSpentAmount.ExpenseRepeatFrequency, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
                                                     <div class="col-sm-3">
                                                         <div class="form-group">
                                                             @Html.LabelFor(model => Model.CreateSpentAmount.SpentAmountDetails, new { @class = "control-label" })
@@ -87,7 +104,7 @@
                                                     <div class="col-sm-3">
                                                         <div class="form-group">
                                                             @*@Html.LabelFor(model => Model.CreateSpentAmount.IsRecurringExpense, new { @class = "control-label" })
-                                                            @Html.EditorFor(model => Model.CreateSpentAmount.IsRecurringExpense, new { @htmlAttributes = new { @id = "edfIsRecurringExpense", @class = "form-control" } })*@
+                                                                @Html.EditorFor(model => Model.CreateSpentAmount.IsRecurringExpense, new { @htmlAttributes = new { @id = "edfIsRecurringExpense", @class = "form-control" } })*@
                                                             @Html.LabelFor(model => Model.CreateSpentAmount.IsRecurringExpense, new { @class = "control-label" })
                                                             @Html.CheckBoxFor(model => Model.CreateSpentAmount.IsRecurringExpense, new { @htmlAttributes = new { @id = "chxIsRecurringExpense", @class = "form-control" } })
                                                             @Html.ValidationMessageFor(model => Model.CreateSpentAmount.IsRecurringExpense, "", new { @class = "text-danger" })
@@ -117,12 +134,13 @@
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th>@Html.DisplayNameFor(model => model.GetSpentAmount[0].IsRecurringExpense)</th>
                                         <th>@Html.ActionLink("Date", "SpentAmount", new { sortOrder = ViewBag.DateSortOrder, page = ViewBag.CurrentPageNumber })</th>
                                         <th>@Html.DisplayNameFor(model => Model.GetSpentAmount[0].SpentAmountItem)</th>
                                         <th>@Html.ActionLink("Amount", "SpentAmount", new { sortOrder = ViewBag.AmountSortOrder, page = ViewBag.CurrentPageNumber })</th>
-                                        <th>@Html.DisplayNameFor(model => Model.GetSpentAmount[0].ExpenseType)</th>
+                                        @*<th>@Html.DisplayNameFor(model => Model.GetSpentAmount[0].ExpenseType)</th>*@
+                                        <th>@Html.DisplayNameFor(model => Model.GetSpentAmount[0].ExpenseSubCategory)</th>
                                         <th>@Html.DisplayNameFor(model => Model.GetSpentAmount[0].PaymentMode)</th>
+                                        <th>@Html.DisplayNameFor(model => Model.GetSpentAmount[0].ExpenseRepeatFrequency)</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -133,9 +151,6 @@
                                         @Html.HiddenFor(item => Model.GetSpentAmount[i].SpentAmountID, new { @id = "hdfSpentAmountId_" + i })
                                         @Html.HiddenFor(item => Model.GetSpentAmount[i].SpentAmountDetails)
                                         <tr id="tablerow_@i">
-                                            <td>
-                                                <div>@Html.DisplayFor(item => Model.GetSpentAmount[i].IsRecurringExpense)</div>
-                                            </td>
                                             <td>
                                                 <div id="dspSpentDate_@i">@Html.DisplayFor(item => Model.GetSpentAmount[i].SpentAmountDate)</div>
                                                 @Html.EditorFor(item => Model.GetSpentAmount[i].SpentAmountDate, new { @htmlAttributes = new { @id = "edfSpentDate_" + i, @class = "form-control hidden" } })
@@ -150,11 +165,16 @@
                                                 @Html.EditorFor(item => Model.GetSpentAmount[i].AmountSpent, new { @htmlAttributes = new { @id = "edfSpentAmount_" + i, @class = "form-control hidden" } })
 
                                             </td>
+                                            @*<td>
+
+                                                    <div id="dspExpenseType_@i">@Html.DisplayFor(item => Model.GetSpentAmount[i].ExpenseType.ExpenseTypeName)</div>
+                                                    @Html.DropDownListFor(item => Model.GetSpentAmount[i].ExpenseType.ExpenseTypeId, new SelectList(ViewBag.ExpenseTypes, "ExpenseTypeId", "ExpenseTypeName", ((IEnumerable<ExpenseTypeViewModel>)ViewBag.ExpenseTypes).Where(item => item.ExpenseTypeId == Model.GetSpentAmount[i].ExpenseType.ExpenseTypeId).Select(item => item.ExpenseTypeId).FirstOrDefault()), "--Select--", new { @id = "edfExpenseType_" + i, @class = "form-control hidden" })
+
+                                                </td>*@
                                             <td>
 
-                                                <div id="dspExpenseType_@i">@Html.DisplayFor(item => Model.GetSpentAmount[i].ExpenseType.ExpenseTypeName)</div>
-                                                @*@Html.EditorFor(item => Model[i].ExpenseType.ExpenseTypeName, new { @htmlAttributes = new { @id = "edfExpenseType_" + i, @class = "form-control hidden" } })*@
-                                                @Html.DropDownListFor(item => Model.GetSpentAmount[i].ExpenseType.ExpenseTypeId, new SelectList(ViewBag.ExpenseTypes, "ExpenseTypeId", "ExpenseTypeName", ((IEnumerable<ExpenseTypeViewModel>)ViewBag.ExpenseTypes).Where(item => item.ExpenseTypeId == Model.GetSpentAmount[i].ExpenseType.ExpenseTypeId).Select(item => item.ExpenseTypeId).FirstOrDefault()), "--Select--", new { @id = "edfExpenseType_" + i, @class = "form-control hidden" })
+                                                <div id="dspExpenseType_@i">@Html.DisplayFor(item => Model.GetSpentAmount[i].ExpenseSubCategory.ExpenseSubCategoryName)</div>
+                                                @Html.DropDownListFor(item => Model.GetSpentAmount[i].ExpenseSubCategory.ExpenseSubCategoryId, new SelectList(ViewBag.ExpenseSubCategories, "ExpenseSubCategoryId", "ExpenseSubCategoryName", ((IEnumerable<ExpenseSubCategoryViewModel>)ViewBag.ExpenseSubCategories).Where(item => item.ExpenseSubCategoryId == Model.GetSpentAmount[i].ExpenseSubCategory.ExpenseSubCategoryId).Select(item => item.ExpenseSubCategoryId).FirstOrDefault()), "--Select--", new { @id = "edfExpenseType_" + i, @class = "form-control hidden" })
 
                                             </td>
                                             <td>
@@ -162,6 +182,12 @@
                                                 <div id="dspPaymentMode_@i">@Html.DisplayFor(item => Model.GetSpentAmount[i].PaymentMode.PaymentModeName)</div>
                                                 @*@Html.EditorFor(item => Model[i].PaymentMode.PaymentModeName, new { @htmlAttributes = new { @id = "edfPaymentMode_" + i, @class = "form-control hidden" } })*@
                                                 @Html.DropDownListFor(item => Model.GetSpentAmount[i].PaymentMode.PaymentModeId, new SelectList(ViewBag.PaymentModes, "PaymentModeId", "PaymentModeName", ((IEnumerable<PaymentModeViewModel>)ViewBag.PaymentModes).Where(item => item.PaymentModeId == Model.GetSpentAmount[i].PaymentMode.PaymentModeId).Select(item => item.PaymentModeId).FirstOrDefault()), "--Select--", new { @class = "form-control hidden", @id = "edfPaymentMode_" + i })
+                                            </td>
+                                            <td>
+
+                                                <div id="dspExpenseRepeat_@i">@Html.DisplayFor(item => Model.GetSpentAmount[i].ExpenseRepeatFrequency.Frequency)</div>
+                                                @Html.DropDownListFor(item => Model.GetSpentAmount[i].ExpenseRepeatFrequency.RepeatId, new SelectList(ViewBag.ExpenseRepeatFrequencies, "RepeatId", "Frequency", ((IEnumerable<ExpenseRepeatFrequencyViewModel>)ViewBag.ExpenseRepeatFrequencies).Where(item => item.RepeatId == Model.GetSpentAmount[i].ExpenseRepeatFrequency.RepeatId).Select(item => item.RepeatId).FirstOrDefault()), "--Select--", new { @id = "edfExpenseRepeat_" + i, @class = "form-control hidden" })
+
                                             </td>
                                             <td>
 
@@ -214,6 +240,8 @@
         $('#dspSpentAmount_' + index).addClass('hidden');
         $('#dspExpenseType_' + index).addClass('hidden');
         $('#dspPaymentMode_' + index).addClass('hidden');
+        $('#dspExpenseRepeat_' + index).addClass('hidden');
+
 
 
         $('#edfSpentDate_' + index).removeClass('hidden');
@@ -221,6 +249,7 @@
         $('#edfSpentAmount_' + index).removeClass('hidden');
         $('#edfExpenseType_' + index).removeClass('hidden');
         $('#edfPaymentMode_' + index).removeClass('hidden');
+        $('#edfExpenseRepeat_' + index).removeClass('hidden');
 
     }
     function CancelLinkClick(index) {
@@ -235,12 +264,14 @@
         $('#dspSpentAmount_' + index).removeClass('hidden');
         $('#dspExpenseType_' + index).removeClass('hidden');
         $('#dspPaymentMode_' + index).removeClass('hidden');
+        $('#dspExpenseRepeat_' + index).removeClass('hidden');
 
         $('#edfSpentDate_' + index).addClass('hidden');
         $('#edfSpentItem_' + index).addClass('hidden');
         $('#edfSpentAmount_' + index).addClass('hidden');
         $('#edfExpenseType_' + index).addClass('hidden');
         $('#edfPaymentMode_' + index).addClass('hidden');
+        $('#edfExpenseRepeat_' + index).addClass('hidden');
     }
     function UpdateLinkClick(index, id) {
 
@@ -255,6 +286,17 @@
                     "ExpenseTypeId": $('#edfExpenseType_' + index).val(),
                     "ExpenseTypeName": $('#edfExpenseType_' + index + ' option:selected').text()
                 },
+            "ExpenseSubCategory": {
+
+                "ExpenseSubcategoryId": $('#edfExpenseType_' + index).val(),
+                "ExpenseSubCategoryName": $('#edfExpenseType_' + index + ' option:selected').text()
+            },
+            "ExpenseRepeatFrequency":{
+
+                "RepeatId": $('#edfExpenseRepeat_' + index).val(),
+                "Frequency": $('#edfExpenseRepeat_' + index + ' option:selected').text()
+
+            },
             "PaymentMode":
                 {
                     "PaymentModeId": $('#edfPaymentMode_' + index).val(),
@@ -278,8 +320,10 @@
                 $('#dspSpentDate_' + index).html(formattedDate);
                 $('#dspSpentItem_' + index).html(data.SpentAmountItem);
                 $('#dspSpentAmount_' + index).html(data.AmountSpent);
-                $('#dspExpenseType_' + index).html(data.ExpenseType.ExpenseTypeName);
+                //$('#dspExpenseType_' + index).html(data.ExpenseType.ExpenseTypeName);
+                $('#dspExpenseType_' + index).html(data.ExpenseSubCategory.ExpenseSubCategoryName);
                 $('#dspPaymentMode_' + index).html(data.PaymentMode.PaymentModeName);
+                $('#dspExpenseRepeat_' + index).html(data.ExpenseRepeatFrequency.Frequency);
                 CancelLinkClick(index);
 
             },

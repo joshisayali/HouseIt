@@ -14,6 +14,7 @@ namespace HouseHoldManagement.Business.Expense
         public IPagedList<GetSpentAmountViewModel> GetSpentAmount { get; set; }
         public CreateSpentAmountViewModel CreateSpentAmount { get; set; }
         public ExpenseFilterViewModel Filter { get; set; }
+
         
     }
 }

@@ -42,5 +42,26 @@ namespace HouseHoldManagement.Business.Shared
             return paymentModes;
 
         } 
+
+        public List<ExpenseCategoryViewModel> GetExpenseCategories()
+        {
+            List<ExpenseCategory> items = unitOfWork.ExpenseCategoryRepository.Get(orderBy: q => q.OrderBy(d => d.ExpenseCategoryId)).ToList();
+            List<ExpenseCategoryViewModel> expenseCategories = ObjectMapper.MapObjects<ExpenseCategory, ExpenseCategoryViewModel>(items);
+            return expenseCategories;
+        }
+
+        public List<ExpenseSubCategoryViewModel> GetExpenseSubCategories()
+        {
+            List<ExpenseSubCategory> items = unitOfWork.ExpenseSubCategoryRepository.Get(orderBy: q => q.OrderBy(d => d.ExpenseSubCategoryId)).ToList();
+            List<ExpenseSubCategoryViewModel> expenseSubCategories = ObjectMapper.MapObjects<ExpenseSubCategory, ExpenseSubCategoryViewModel>(items);
+            return expenseSubCategories;
+        }
+
+        public List<ExpenseRepeatFrequencyViewModel> GetExpenseRepeatFrequency()
+        {
+            List<ExpenseRepeatFrequency> items = unitOfWork.ExpenseRepeatFrequencyRepository.Get(orderBy: q => q.OrderBy(d => d.RepeatId)).ToList();
+            List<ExpenseRepeatFrequencyViewModel> expenseRepeatFrequencies = ObjectMapper.MapObjects<ExpenseRepeatFrequency, ExpenseRepeatFrequencyViewModel>(items);
+            return expenseRepeatFrequencies;
+        }
     }
 }

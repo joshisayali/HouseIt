@@ -14,6 +14,9 @@ namespace HouseHoldManagement.Data
         GenericRepository<EarnedAmount> earnedAmountRepository;
         GenericRepository<ExpenseType> expenseTypeRepository;
         GenericRepository<PaymentMode> paymentModeRepository;
+        GenericRepository<ExpenseCategory> expenseCategoryRepository;
+        GenericRepository<ExpenseSubCategory> expenseSubCategoryRepository;
+        GenericRepository<ExpenseRepeatFrequency> expenseRepeatFrequencyRepository;
 
         public GenericRepository<SpentAmount> SpentAmountRepository
         {
@@ -48,6 +51,44 @@ namespace HouseHoldManagement.Data
                 return expenseTypeRepository;
             }
         }
+
+        public GenericRepository<ExpenseCategory> ExpenseCategoryRepository
+        {
+            get
+            {
+                if (expenseCategoryRepository == null)
+                {
+                    expenseCategoryRepository = new GenericRepository<ExpenseCategory>(context);
+                }
+                return expenseCategoryRepository;
+            }
+        }
+
+        public GenericRepository<ExpenseSubCategory> ExpenseSubCategoryRepository
+        {
+            get
+            {
+                if(expenseSubCategoryRepository == null)
+                {
+                    expenseSubCategoryRepository = new GenericRepository<ExpenseSubCategory>(context);
+                }
+                return expenseSubCategoryRepository;
+            }
+        }
+
+        public GenericRepository<ExpenseRepeatFrequency> ExpenseRepeatFrequencyRepository
+        {
+            get
+            {
+                if(expenseRepeatFrequencyRepository == null)
+                {
+                    expenseRepeatFrequencyRepository = new GenericRepository<ExpenseRepeatFrequency>(context);
+                }
+                return expenseRepeatFrequencyRepository;
+            }
+        }
+
+
         public GenericRepository<PaymentMode> PaymentModeRepository
         {
             get

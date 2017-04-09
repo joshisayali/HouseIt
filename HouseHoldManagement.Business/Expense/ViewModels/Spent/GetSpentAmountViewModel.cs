@@ -26,5 +26,13 @@ namespace HouseHoldManagement.Business.Expense
         public string SpentAmountDetails { get; set; }
         [Display(Name = "Is Recurring")]
         public bool IsRecurringExpense { get; set; }
+        [Display(Name = "Category")]
+        public ExpenseCategoryViewModel ExpenseCategory { get; set; }
+        [Display(Name = "Category")]
+        [Required]
+        public ExpenseSubCategoryViewModel ExpenseSubCategory { get; set; }
+        [Display(Name = "Repeat")]
+        [Required]
+        public ExpenseRepeatFrequencyViewModel ExpenseRepeatFrequency { get; set; }
     }
 }

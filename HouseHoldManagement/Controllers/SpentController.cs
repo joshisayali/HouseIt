@@ -67,12 +67,19 @@ namespace HouseHoldManagement.Controllers
 
             //This is for in-place edit
             SharedProcessor sharedProcessor = new SharedProcessor();
-            ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
+            //ViewBag.ExpenseTypes = sharedProcessor.GetExpenseTypes();
             ViewBag.PaymentModes = sharedProcessor.GetPaymentModes();
+            ViewBag.ExpenseCategories = sharedProcessor.GetExpenseCategories();
+            ViewBag.ExpenseSubCategories = sharedProcessor.GetExpenseSubCategories();
+            ViewBag.ExpenseRepeatFrequencies = sharedProcessor.GetExpenseRepeatFrequency();
 
             //This code is to populate drop downs in partial view - filter
             filter.ExpenseTypes = sharedProcessor.GetExpenseTypes();
             filter.PaymentModes = sharedProcessor.GetPaymentModes();
+            //filter.ExpenseCategory = sharedProcessor.GetExpenseCategories();
+            //filter.ExpenseSubCategory = sharedProcessor.GetExpenseSubCategories();
+            //filter.ExpenseRepeatFrequency = sharedProcessor.GetExpenseRepeatFrequency();
+
 
             SpentAmountProcessor spentAmountProcessor = new SpentAmountProcessor();
             SpentAmountViewModel spent = new SpentAmountViewModel()

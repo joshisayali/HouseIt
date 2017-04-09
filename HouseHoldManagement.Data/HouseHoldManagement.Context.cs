@@ -26,6 +26,9 @@ namespace HouseHoldManagement.Data
         }
     
         public virtual DbSet<EarnedAmount> EarnedAmounts { get; set; }
+        public virtual DbSet<ExpenseCategory> ExpenseCategories { get; set; }
+        public virtual DbSet<ExpenseRepeatFrequency> ExpenseRepeatFrequencies { get; set; }
+        public virtual DbSet<ExpenseSubCategory> ExpenseSubCategories { get; set; }
         public virtual DbSet<ExpenseType> ExpenseTypes { get; set; }
         public virtual DbSet<Month> Months { get; set; }
         public virtual DbSet<PaymentMode> PaymentModes { get; set; }
